@@ -306,3 +306,4 @@ onetag.com, 87f80e5d9d55274, RESELLER
 smilewanted.com, 5314, RESELLER
 lijit.com, 402418, RESELLER, fafdf38b16bf6b2b
 # KLIPY End
+google.com, pub-9221552597487164, DIRECT, f08c47fec0942fa0
