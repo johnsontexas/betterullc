@@ -1,10 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -14,8 +19,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "BetterU LLC - Building Innovative Apps",
-  description: "BetterU LLC creates innovative social apps including BetterU Social Fitness and Snapshot Assassin. Transform your potential with our cutting-edge solutions.",
-  keywords: ["BetterU", "social fitness", "snapshot", "mobile apps", "startup"],
+  description: "BetterU LLC creates innovative social apps including BetterU Social Fitness, Snapshot, and CogTrack. Transform your potential with our cutting-edge solutions.",
+  keywords: ["BetterU", "social fitness", "snapshot", "cogtrack", "cognitive training", "mobile apps", "startup"],
   authors: [{ name: "BetterU LLC" }],
   openGraph: {
     title: "BetterU LLC - Building Innovative Apps",
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#004008",
   width: "device-width",
   initialScale: 1,
 };
@@ -36,8 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+    <html lang="en">
+      <body className={`${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

@@ -42,7 +42,7 @@ export function LegalPage({ title, effectiveDate, backLink, children }: LegalPag
           </div>
 
           {/* Content */}
-          <div className="prose prose-invert max-w-none">
+          <div className="prose max-w-none">
             <div className="space-y-8 text-muted-foreground">
               {children}
             </div>

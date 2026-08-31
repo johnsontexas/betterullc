@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-secondary border-t border-border">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -11,7 +11,7 @@ export function Footer() {
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">B</span>
               </div>
-              <span className="text-foreground font-medium tracking-wide">BETTERU LLC</span>
+              <span className="text-foreground font-medium tracking-wide font-display">BETTERU LLC</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
               Building innovative apps that transform how people connect, compete, and improve. 
@@ -36,6 +36,11 @@ export function Footer() {
               <li>
                 <Link href="/snapshot" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   Snapshot Assassin
+                </Link>
+              </li>
+              <li>
+                <Link href="/cogtrack" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  CogTrack
                 </Link>
               </li>
             </ul>

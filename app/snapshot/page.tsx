@@ -50,22 +50,17 @@ export default function SnapshotPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card" />
-        <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+      <section className="relative flex items-center justify-center pt-36 pb-24 bg-secondary border-b border-border">
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center">
             {/* Development Badge */}
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 px-4 py-2 rounded-full mb-8 animate-pulse-glow">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-primary text-sm font-medium">Currently in Development</span>
+            <div className="inline-flex items-center gap-2 bg-card border border-border px-4 py-2 rounded-full mb-8">
+              <span className="w-2 h-2 bg-primary rounded-full" />
+              <span className="text-muted-foreground text-sm font-medium">Currently in Development</span>
             </div>
 
             {/* Logo Icon */}
-            <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-2xl shadow-primary/30 animate-float">
+            <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-primary flex items-center justify-center">
               <Camera size={48} className="text-primary-foreground" />
             </div>
 
@@ -80,8 +75,8 @@ export default function SnapshotPage() {
               A social game built around catching real moments.
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
-              Players join groups and receive secret challenges involving their friends. 
-              The goal is simple: capture a photo of someone completing the task without them 
+              Players join groups and receive secret challenges involving their friends.
+              The goal is simple: capture a photo of someone completing the task without them
               realizing they're part of the mission.
             </p>
 
@@ -91,7 +86,7 @@ export default function SnapshotPage() {
                 href="https://testflight.apple.com/join/wWCrYPSd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium text-lg hover:bg-primary/90 transition-all hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 group"
+                className="flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium text-lg hover:bg-primary/90 transition-colors group"
               >
                 <Apple size={24} />
                 Join TestFlight Beta
@@ -121,7 +116,7 @@ export default function SnapshotPage() {
       </section>
 
       {/* Example Challenges */}
-      <section className="py-16 bg-card border-t border-b border-border">
+      <section className="py-16 bg-background border-b border-border">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-center text-muted-foreground mb-8">Example challenges:</p>
           <div className="flex flex-wrap justify-center gap-3">
@@ -141,7 +136,7 @@ export default function SnapshotPage() {
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-primary text-sm font-medium tracking-wider uppercase">
+            <span className="text-accent text-sm font-medium tracking-wider uppercase">
               Features
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4 text-balance">
@@ -153,15 +148,14 @@ export default function SnapshotPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => {
+            {features.map((feature) => {
               const IconComponent = feature.icon;
               return (
                 <div
                   key={feature.title}
-                  className="group bg-card rounded-2xl border border-border p-6 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="group bg-card rounded-2xl border border-border p-6 hover:border-primary/40 transition-colors duration-200"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                     <IconComponent className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">
@@ -178,7 +172,7 @@ export default function SnapshotPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-card border-t border-border">
+      <section className="py-24 bg-secondary border-t border-border">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
             <Apple size={32} className="text-primary" />
@@ -187,14 +181,14 @@ export default function SnapshotPage() {
             Be the First to Play
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto text-pretty">
-            Snapshot is currently in development. Join our public TestFlight to get early access 
+            Snapshot is currently in development. Join our public TestFlight to get early access
             and help shape the future of social gaming.
           </p>
           <a
             href="https://testflight.apple.com/join/wWCrYPSd"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium text-lg hover:bg-primary/90 transition-all hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 group"
+            className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-medium text-lg hover:bg-primary/90 transition-colors group"
           >
             <Apple size={24} />
             Download TestFlight Beta
