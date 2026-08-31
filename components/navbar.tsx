@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/#team", label: "Team" },
-  { href: "/snapshot", label: "Snapshot Assassin" },
+  { href: "/snapshot", label: "Snapshot" },
   { href: "/cogtrack", label: "CogTrack" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
@@ -24,13 +24,13 @@ export function Navbar() {
             <div className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center">
               <span className="text-primary font-bold text-sm">B</span>
             </div>
-            <span className="text-primary-foreground font-medium tracking-wide text-lg font-display">
+            <span className="text-primary-foreground font-medium tracking-wide text-lg font-display whitespace-nowrap">
               BETTERU LLC
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-5 lg:gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -44,7 +44,7 @@ export function Navbar() {
               href="https://apps.apple.com/us/app/betteru-social-fitness/id6744857930"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-primary-foreground text-primary px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-primary-foreground/90 transition-colors"
+              className="bg-primary-foreground text-primary px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-primary-foreground/90 transition-colors whitespace-nowrap"
             >
               Get the App
             </a>
