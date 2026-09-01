@@ -36,7 +36,8 @@ export function LegalPage({ title, effectiveDate, backLink, children }: LegalPag
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {title}
             </h1>
-            <p className="text-muted-foreground">
+            <span className="brand-rule mb-4" />
+            <p className="text-muted-foreground mt-4">
               <strong className="text-foreground">Effective Date:</strong> {effectiveDate}
             </p>
           </div>

@@ -20,10 +20,10 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center">
-              <span className="text-primary font-bold text-sm">B</span>
+            <div className="w-8 h-8 rounded-lg bg-primary-foreground flex items-center justify-center">
+              <span className="text-primary font-bold text-sm font-display">B</span>
             </div>
-            <span className="text-primary-foreground font-medium tracking-wide text-lg font-display whitespace-nowrap">
+            <span className="text-primary-foreground font-semibold tracking-wide text-lg font-display whitespace-nowrap">
               BETTERU LLC
             </span>
           </Link>

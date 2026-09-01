@@ -63,6 +63,7 @@ export default function BetterUPage() {
       <section className="relative flex items-center justify-center pt-36 pb-24 bg-secondary border-b border-border">
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center">
+            <span className="brand-rule brand-rule-center mb-7" />
             <div className="inline-flex items-center gap-2 bg-card border border-border px-4 py-2 rounded-full mb-8">
               <span className="w-2 h-2 bg-primary rounded-full" />
               <span className="text-muted-foreground text-sm font-medium">Free on the App Store</span>
@@ -113,10 +114,11 @@ export default function BetterUPage() {
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-accent text-sm font-medium tracking-wider uppercase">Features</span>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4 text-balance">
+            <span className="text-accent text-sm font-semibold tracking-wider uppercase">Features</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-5 text-balance">
               Consistency, made social
             </h2>
+            <span className="brand-rule brand-rule-center mb-5" />
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto text-pretty">
               The point isn&apos;t a perfect program. It&apos;s showing up — and BetterU is built to make
               that the easy choice.
@@ -147,10 +149,11 @@ export default function BetterUPage() {
       <section className="py-24 bg-secondary border-t border-border">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-accent text-sm font-medium tracking-wider uppercase">How it works</span>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4 text-balance">
+            <span className="text-accent text-sm font-semibold tracking-wider uppercase">How it works</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-5 text-balance">
               Start in a couple of minutes
             </h2>
+            <span className="brand-rule brand-rule-center mb-5" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[

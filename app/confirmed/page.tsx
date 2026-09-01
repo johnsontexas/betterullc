@@ -50,7 +50,8 @@ export default function ConfirmedPage() {
             <Check size={40} className="text-primary" strokeWidth={2.5} />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Email confirmed</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Email confirmed</h1>
+          <span className="brand-rule brand-rule-center mb-5" />
           <p className="text-muted-foreground text-lg mb-10 text-pretty">
             Your email address is verified. You can head back to the app and sign in — this works for
             all of our apps.

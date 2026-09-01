@@ -18,19 +18,20 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BetterU LLC - Building Innovative Apps",
-  description: "BetterU LLC creates innovative social apps including BetterU Social Fitness, Snapshot, and CogTrack. Transform your potential with our cutting-edge solutions.",
+  title: "BetterU LLC - Get better, together",
+  description:
+    "BetterU LLC builds social apps around one idea: people improve faster with their friends in it with them. BetterU Social Fitness, Snapshot, and CogTrack.",
   keywords: ["BetterU", "social fitness", "snapshot", "cogtrack", "cognitive training", "mobile apps", "startup"],
   authors: [{ name: "BetterU LLC" }],
   openGraph: {
-    title: "BetterU LLC - Building Innovative Apps",
-    description: "Transform your potential with our innovative social apps",
+    title: "BetterU LLC - Get better, together",
+    description: "Social apps for fitness, friendly competition, and progress you can see.",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#004008",
+  themeColor: "#0a8043",
   width: "device-width",
   initialScale: 1,
 };

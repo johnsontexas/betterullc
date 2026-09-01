@@ -30,14 +30,15 @@ export function Team() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="text-accent text-sm font-medium tracking-wider uppercase">
-            Our Team
+          <span className="text-accent text-sm font-semibold tracking-wider uppercase">
+            Our team
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-4 text-balance">
-            Meet the Founders
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-5 text-balance">
+            Meet the founders
           </h2>
+          <span className="brand-rule brand-rule-center mb-5" />
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto text-pretty">
-            A passionate team of entrepreneurs building the next generation of social applications
+            Three founders building social apps we&apos;d want to use with our own friends.
           </p>
         </div>
 

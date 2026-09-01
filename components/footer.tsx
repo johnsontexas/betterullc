@@ -8,14 +8,15 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">B</span>
+              <div className="w-8 h-8 rounded-lg brand-chip flex items-center justify-center">
+                <span className="font-bold text-sm font-display">B</span>
               </div>
-              <span className="text-foreground font-medium tracking-wide font-display">BETTERU LLC</span>
+              <span className="text-foreground font-semibold tracking-wide font-display">BETTERU LLC</span>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
-              Building innovative apps that transform how people connect, compete, and improve. 
-              From social fitness to strategic gaming, we create experiences that matter.
+            <span className="brand-rule mb-4" />
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-md mt-4">
+              We build social apps around one idea: people get better, together. From social fitness
+              to friendly competition, we make progress something you share.
             </p>
           </div>
 
