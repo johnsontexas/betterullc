@@ -25,9 +25,14 @@ export function Footer() {
             <h4 className="text-foreground font-medium mb-4 text-sm tracking-wide">Products</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/betteru" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <a
+                  href="https://betteruai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                >
                   BetterU Social Fitness
-                </Link>
+                </a>
               </li>
               <li>
                 <Link href="/snapshot" className="text-muted-foreground hover:text-primary transition-colors text-sm">

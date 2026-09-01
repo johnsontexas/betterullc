@@ -24,8 +24,8 @@ const chapters: Chapter[] = [
     name: "BetterU Social Fitness",
     line: "Bring your friends, set goals, and turn just showing up into the thing you compete on.",
     points: ["Work out with your friends", "Keep your streak alive", "Weekly group challenges"],
-    href: "/betteru",
-    cta: "Explore BetterU",
+    href: "https://betteruai.com",
+    cta: "Visit betteruai.com",
     bg: "#0a8043",
     accent: "#ffd8a8",
     muted: "rgba(255,255,255,0.74)",
@@ -201,14 +201,27 @@ export function AppChapters() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href={c.href}
-                    className="mt-9 inline-flex items-center gap-2 bg-white px-6 py-3.5 rounded-xl font-semibold text-sm transition-transform hover:gap-3"
-                    style={{ color: c.bg }}
-                  >
-                    {c.cta}
-                    <ArrowRight size={17} />
-                  </Link>
+                  {c.href.startsWith("http") ? (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-9 inline-flex items-center gap-2 bg-white px-6 py-3.5 rounded-xl font-semibold text-sm transition-transform hover:gap-3"
+                      style={{ color: c.bg }}
+                    >
+                      {c.cta}
+                      <ArrowRight size={17} />
+                    </a>
+                  ) : (
+                    <Link
+                      href={c.href}
+                      className="mt-9 inline-flex items-center gap-2 bg-white px-6 py-3.5 rounded-xl font-semibold text-sm transition-transform hover:gap-3"
+                      style={{ color: c.bg }}
+                    >
+                      {c.cta}
+                      <ArrowRight size={17} />
+                    </Link>
+                  )}
                 </Reveal>
 
                 <Reveal delay={120} className="flex justify-center">

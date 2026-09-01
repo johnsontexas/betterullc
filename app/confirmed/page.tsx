@@ -12,7 +12,8 @@ const apps = [
   {
     name: "BetterU Social Fitness",
     blurb: "Get fit with friends.",
-    href: "/betteru",
+    href: "https://betteruai.com",
+    external: true,
     Icon: Dumbbell,
     iconClass: "bg-primary/10 text-primary",
   },
@@ -20,6 +21,7 @@ const apps = [
     name: "Snapshot",
     blurb: "Catch your target in the act.",
     href: "/snapshot",
+    external: false,
     Icon: Crosshair,
     iconClass: "bg-[#166534]/12 text-[#166534]",
   },
@@ -27,6 +29,7 @@ const apps = [
     name: "CogTrack",
     blurb: "Your mind, measured daily.",
     href: "/cogtrack",
+    external: false,
     Icon: Brain,
     iconClass: "bg-[#7c6cf0]/12 text-[#7c6cf0]",
   },
@@ -60,12 +63,8 @@ export default function ConfirmedPage() {
           <div className="space-y-3 text-left">
             {apps.map((app) => {
               const { Icon } = app;
-              return (
-                <Link
-                  key={app.name}
-                  href={app.href}
-                  className="group flex items-center gap-4 bg-card border border-border rounded-2xl p-4 hover:border-primary/40 transition-colors"
-                >
+              const inner = (
+                <>
                   <span className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${app.iconClass}`}>
                     <Icon className="w-6 h-6" />
                   </span>
@@ -77,6 +76,17 @@ export default function ConfirmedPage() {
                     size={18}
                     className="text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0"
                   />
+                </>
+              );
+              const cls =
+                "group flex items-center gap-4 bg-card border border-border rounded-2xl p-4 hover:border-primary/40 transition-colors";
+              return app.external ? (
+                <a key={app.name} href={app.href} target="_blank" rel="noopener noreferrer" className={cls}>
+                  {inner}
+                </a>
+              ) : (
+                <Link key={app.name} href={app.href} className={cls}>
+                  {inner}
                 </Link>
               );
             })}

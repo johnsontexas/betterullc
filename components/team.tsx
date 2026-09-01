@@ -1,24 +1,22 @@
 import Image from "next/image";
+import { Linkedin } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 
 const team = [
   {
     name: "Lucas Borgarello",
-    role: "Co-founder · AI & infrastructure",
     image: "/lucas.jpeg",
-    description: "Keeps the servers fast and the AI useful so the apps just work.",
+    linkedin: "https://www.linkedin.com/in/lucas-borgarello-322804356",
   },
   {
     name: "Daniel Johnson",
-    role: "Co-founder · Operations & growth",
-    image: "/dssaw.png",
-    description: "Runs the business, the marketing, and most of the ideas.",
+    image: "/dan3.JPG",
+    linkedin: "https://www.linkedin.com/in/johnsontx",
   },
   {
     name: "Enrique Ortiz",
-    role: "Co-founder · Product & app development",
     image: "/enrique.jpeg",
-    description: "Builds the apps and owns how they feel to use.",
+    linkedin: "https://www.linkedin.com/in/enrique-ortiz-397588399",
   },
 ];
 
@@ -29,8 +27,12 @@ export function Team() {
         <Reveal>
           <span className="brand-rule mb-6" />
           <h2 className="font-display font-extrabold text-foreground leading-[1.02] tracking-[-0.03em] text-[clamp(1.9rem,4vw,3rem)] max-w-3xl text-balance">
-            Three founders, building apps we&apos;d use with our own friends
+            Three co-founders. We build the apps together.
           </h2>
+          <p className="mt-4 text-muted-foreground text-lg max-w-2xl text-pretty">
+            We split the work loosely and all end up touching every part of it — product, the
+            apps themselves, growth and the infrastructure underneath.
+          </p>
         </Reveal>
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -45,11 +47,24 @@ export function Team() {
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                   />
                 </div>
-                <h3 className="font-display font-bold text-foreground text-xl mt-5">{member.name}</h3>
-                <p className="text-accent text-xs font-semibold tracking-[0.14em] uppercase mt-1 mb-2">
-                  {member.role}
-                </p>
-                <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+                <div className="mt-5 flex items-center justify-between gap-3">
+                  <div>
+                    <h3 className="font-display font-bold text-foreground text-xl">{member.name}</h3>
+                    <p className="text-accent text-xs font-semibold tracking-[0.14em] uppercase mt-1">
+                      Co-founder
+                    </p>
+                  </div>
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} on LinkedIn`}
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors shrink-0"
+                  >
+                    <Linkedin size={16} />
+                    LinkedIn
+                  </a>
+                </div>
               </div>
             </Reveal>
           ))}
