@@ -1,4 +1,5 @@
-import { ArrowRight, Smartphone } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
@@ -25,16 +26,13 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in stagger-3">
-            <a
-              href="https://apps.apple.com/us/app/betteru-social-fitness/id6744857930"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/#apps"
               className="flex items-center gap-2 bg-primary-foreground text-primary px-8 py-4 rounded-xl font-medium text-lg hover:bg-primary-foreground/90 transition-colors group"
             >
-              <Smartphone size={20} />
-              Download BetterU
+              Explore our apps
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
             <a
               href="https://betteruai.com"
               target="_blank"

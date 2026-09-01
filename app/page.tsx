@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
-import { Products } from "@/components/products";
+import { AppsCarousel } from "@/components/apps-carousel";
 import { Team } from "@/components/team";
 import { Footer } from "@/components/footer";
 
@@ -9,7 +9,7 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Navbar />
       <Hero />
-      <Products />
+      <AppsCarousel />
       <Team />
       <Footer />
     </main>

@@ -6,9 +6,8 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/#apps", label: "Apps" },
   { href: "/#team", label: "Team" },
-  { href: "/snapshot", label: "Snapshot" },
-  { href: "/cogtrack", label: "CogTrack" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
 ];
@@ -30,7 +29,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-5 lg:gap-7">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -40,14 +39,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <a
-              href="https://apps.apple.com/us/app/betteru-social-fitness/id6744857930"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/#apps"
               className="bg-primary-foreground text-primary px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-primary-foreground/90 transition-colors whitespace-nowrap"
             >
-              Get the App
-            </a>
+              Our apps
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,14 +71,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href="https://apps.apple.com/us/app/betteru-social-fitness/id6744857930"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-primary-foreground text-primary px-5 py-2.5 rounded-lg font-medium text-sm text-center hover:bg-primary-foreground/90 transition-colors"
-              >
-                Get the App
-              </a>
             </div>
           </div>
         )}

@@ -24,18 +24,13 @@ export function Footer() {
             <h4 className="text-foreground font-medium mb-4 text-sm tracking-wide">Products</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="https://apps.apple.com/us/app/betteru-social-fitness/id6744857930"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                >
+                <Link href="/betteru" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   BetterU Social Fitness
-                </a>
+                </Link>
               </li>
               <li>
                 <Link href="/snapshot" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Snapshot Assassin
+                  Snapshot
                 </Link>
               </li>
               <li>
