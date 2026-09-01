@@ -1,92 +1,73 @@
 import Image from "next/image";
+import { Reveal } from "@/components/reveal";
 
 const team = [
   {
     name: "Lucas Borgarello",
-    role: "Co-Founder / Co-Owner",
+    role: "Co-founder · AI & infrastructure",
     image: "/lucas.jpeg",
-    description:
-      "Expert in AI and server management, bringing technical expertise to ensure BetterU's infrastructure is robust, scalable, and powered by cutting-edge artificial intelligence solutions.",
+    description: "Keeps the servers fast and the AI useful so the apps just work.",
   },
   {
     name: "Daniel Johnson",
-    role: "Co-Founder / Co-Owner",
+    role: "Co-founder · Operations & growth",
     image: "/dssaw.png",
-    description:
-      "Primarily manages business operations, marketing strategies, and idea generation, driving BetterU's growth and ensuring our vision reaches and resonates with users worldwide.",
+    description: "Runs the business, the marketing, and most of the ideas.",
   },
   {
     name: "Enrique Ortiz",
-    role: "Co-Founder / Co-Owner",
+    role: "Co-founder · Product & app development",
     image: "/enrique.jpeg",
-    description:
-      "Primarily focuses on app development, crafting the user experience and functionality that makes BetterU Social Fitness intuitive, engaging, and impactful for our community.",
+    description: "Builds the apps and owns how they feel to use.",
   },
 ];
 
 export function Team() {
   return (
-    <section id="team" className="py-24 bg-secondary border-t border-border">
+    <section id="team" className="py-24 md:py-28 bg-secondary border-t border-border">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-accent text-sm font-semibold tracking-wider uppercase">
-            Our team
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-3 mb-5 text-balance">
-            Meet the founders
+        <Reveal>
+          <span className="brand-rule mb-6" />
+          <h2 className="font-display font-extrabold text-foreground leading-[1.02] tracking-[-0.03em] text-[clamp(1.9rem,4vw,3rem)] max-w-3xl text-balance">
+            Three founders, building apps we&apos;d use with our own friends
           </h2>
-          <span className="brand-rule brand-rule-center mb-5" />
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto text-pretty">
-            Three founders building social apps we&apos;d want to use with our own friends.
-          </p>
-        </div>
+        </Reveal>
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {team.map((member) => (
-            <div
-              key={member.name}
-              className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/40 transition-colors duration-200"
-            >
-              {/* Image */}
-              <div className="relative aspect-square overflow-hidden bg-muted">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-foreground mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-primary text-sm font-medium tracking-wide mb-4">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {team.map((member, i) => (
+            <Reveal key={member.name} delay={i * 90}>
+              <div className="group">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted border border-border">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <h3 className="font-display font-bold text-foreground text-xl mt-5">{member.name}</h3>
+                <p className="text-accent text-xs font-semibold tracking-[0.14em] uppercase mt-1 mb-2">
                   {member.role}
                 </p>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {member.description}
-                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
-        {/* Contact Box */}
-        <div className="mt-20 text-center">
-          <div className="inline-block bg-card border border-border rounded-2xl p-8 hover:border-primary/40 transition-colors">
-            <p className="text-foreground text-lg mb-2">Get in touch with us</p>
+        <Reveal>
+          <div className="mt-16 flex flex-col sm:flex-row sm:items-center gap-4 border-t-2 border-foreground pt-8">
+            <p className="font-display font-bold text-foreground text-xl flex-1">
+              Want to talk? We read everything.
+            </p>
             <a
               href="mailto:app@betterullc.com"
-              className="text-primary hover:text-primary/80 transition-colors text-lg font-medium"
+              className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity w-fit"
             >
               app@betterullc.com
             </a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

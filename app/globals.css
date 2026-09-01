@@ -118,8 +118,46 @@ h6 {
 .stagger-3 { animation-delay: 0.24s; }
 .stagger-4 { animation-delay: 0.32s; }
 
+/* Scroll reveal (paired with <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Editorial ghost numeral used on the app chapters */
+.ghost-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  font-size: clamp(4.5rem, 12vw, 9rem);
+}
+
+/* Infinite marquee strip */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in {
+  .animate-fade-in,
+  .marquee {
     animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
