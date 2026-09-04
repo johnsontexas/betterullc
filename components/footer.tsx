@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Instagram } from "lucide-react";
 
 export function Footer() {
   return (
@@ -14,10 +15,19 @@ export function Footer() {
               <span className="text-foreground font-semibold tracking-wide font-display">BETTERU LLC</span>
             </div>
             <span className="brand-rule mb-4" />
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-md mt-4">
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-md mt-4 mb-4">
               We build social apps around one idea: people get better, together. From social fitness
               to friendly competition, we make progress something you share.
             </p>
+            <a
+              href="https://www.instagram.com/betterullc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
+            >
+              <Instagram size={16} />
+              Follow us on Instagram · @betterullc
+            </a>
           </div>
 
           {/* Products */}
