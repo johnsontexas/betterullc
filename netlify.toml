@@ -1,0 +1,7 @@
+# Netlify picks up the Next.js runtime automatically and runs the build
+# with whichever package manager matches the committed lockfile (pnpm here).
+# Kept minimal on purpose — set a Build command / Publish directory in the
+# Netlify UI only if you need to override the defaults.
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

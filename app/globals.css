@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/*
+  BetterU LLC brand palette
+  ---------------------------------------------------------------
+  We build social apps that help people get better, together —
+  fitness, friendly competition, measurable progress.
+  - Green  (#0a8043) = growth, progress, "go". The family colour
+    shared with our apps.
+  - Orange (#f97316 / #c2410c) = energy, people, competition.
+  The two meet in the "brand rule": a small green -> orange bar
+  used as the accent mark across every page and every app page.
+*/
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #10130f;
+  --color-card: #ffffff;
+  --color-card-foreground: #10130f;
+
+  --color-primary: #0a8043;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #eef2ec;
+  --color-secondary-foreground: #0c2a19;
+
+  --color-muted: #f4f6f2;
+  --color-muted-foreground: #56605a;
+
+  /* text-safe burnt orange; the bright #f97316 lives in the brand rule only */
+  --color-accent: #c2410c;
+  --color-accent-foreground: #ffffff;
+
+  --color-border: #e3e7e0;
+  --color-input: #e3e7e0;
+  --color-ring: #0a8043;
+  --radius: 0.85rem;
+
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-dm-sans), "DM Sans", "Helvetica Neue", Helvetica, Arial, ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --brand-gradient: linear-gradient(90deg, #0a8043 0%, #2ea44f 45%, #f97316 100%);
+  --brand-hero: linear-gradient(152deg, #0c8f4d 0%, #0a8043 52%, #08672f 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  /* soft green wash, top-left — flat, no glow */
+  background-image: radial-gradient(
+    90% 60% at 0% 0%,
+    rgba(10, 128, 67, 0.045),
+    transparent 55%
+  );
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* Brand rule — the green -> orange accent mark used site-wide */
+.brand-rule {
+  display: block;
+  width: 3.25rem;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+}
+.brand-rule-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Brand mark chip (the "B") */
+.brand-chip {
+  background: var(--brand-gradient);
+  color: #ffffff;
+}
+
+/* Animations — subtle entrance only, no glow, no float */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.08s; }
+.stagger-2 { animation-delay: 0.16s; }
+.stagger-3 { animation-delay: 0.24s; }
+.stagger-4 { animation-delay: 0.32s; }
+
+/* Scroll reveal (paired with <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Editorial ghost numeral used on the app chapters */
+.ghost-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  font-size: clamp(4.5rem, 12vw, 9rem);
+}
+
+/* Infinite marquee strip */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .marquee {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
