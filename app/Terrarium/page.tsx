@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Reveal } from "@/components/reveal";
+import { EmailSignup } from "@/components/email-signup";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -21,8 +22,6 @@ export const metadata: Metadata = {
   description:
     "Terrarium is a desktop app: one customizable environment that holds your browser tabs, notes, timers and mini-apps on a pinboard — saved to disk and synced across Mac and Windows. In development.",
 };
-
-const NOTIFY = "mailto:app@betterullc.com?subject=Terrarium%20beta";
 
 const panelChips = [
   "Browser",
@@ -154,9 +153,7 @@ export default function TerrariumPage() {
               there — down to the seconds on a running timer.
             </p>
             <div className="tr-cta-row">
-              <a className="tr-btn" href={NOTIFY}>
-                Get notified at launch →
-              </a>
+              <EmailSignup source="terrarium" variant="terrarium" cta="Email me at launch" />
               <span className="tr-mini">macOS now · Windows next</span>
             </div>
             <div className="tr-chips" aria-hidden>
@@ -256,12 +253,12 @@ export default function TerrariumPage() {
         <span className="tr-dash tr-dash-center" />
         <h2 className="tr-title">Terrarium is coming to macOS.</h2>
         <p className="tr-body tr-body-center">
-          It&apos;s in early development. Leave a note and we&apos;ll tell you the moment the beta
+          It&apos;s in early development. Drop your email and we&apos;ll tell you the moment the beta
           opens.
         </p>
-        <a className="tr-btn" href={NOTIFY}>
-          Get notified at launch →
-        </a>
+        <div className="tr-final-form">
+          <EmailSignup source="terrarium" variant="terrarium" cta="Email me at launch" />
+        </div>
       </section>
 
       <footer className="tr-foot">
@@ -382,7 +379,9 @@ const CSS = `
   font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#d3d7fb;
 }
 .tr-dot{width:7px; height:7px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(137,144,244,.25);}
-.tr-cta-row{display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:30px;}
+.tr-cta-row{display:flex; flex-wrap:wrap; align-items:flex-start; gap:12px 18px; margin-top:30px;}
+.tr-final-form{display:flex; justify-content:center; margin-top:26px;}
+.tr-final-form form{text-align:left;}
 .tr-btn{
   display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:12px;
   font-weight:600; font-size:.95rem; background:var(--accent); color:#0b0e14;

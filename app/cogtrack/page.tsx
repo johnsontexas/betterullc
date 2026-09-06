@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { EmailSignup } from "@/components/email-signup";
 
 export const metadata: Metadata = {
   title: "CogTrack - Your mind, measured daily",
@@ -322,12 +323,7 @@ export default function CogTrackPage() {
               <span className="ctk-badge">
                 <span className="ctk-dot" /> Coming soon to iOS
               </span>
-              <a
-                className="ctk-btn"
-                href="mailto:app@betterullc.com?subject=Notify%20me%20about%20CogTrack"
-              >
-                Get notified at launch →
-              </a>
+              <EmailSignup source="cogtrack" variant="cogtrack" cta="Email me at launch" />
             </div>
           </div>
           <div className="ctk-stage">
@@ -434,15 +430,12 @@ export default function CogTrackPage() {
         <span className="ctk-dash ctk-dash-center" style={{ background: "#ff5a8a" }} />
         <h2 className="ctk-title">CogTrack is on the way.</h2>
         <p className="ctk-body ctk-body-center">
-          We&apos;re building it now. Leave a note and we&apos;ll tell you the moment
+          We&apos;re building it now. Drop your email and we&apos;ll tell you the moment
           it&apos;s on the App Store.
         </p>
-        <a
-          className="ctk-btn"
-          href="mailto:app@betterullc.com?subject=Notify%20me%20about%20CogTrack"
-        >
-          Get notified at launch →
-        </a>
+        <div className="ctk-final-form">
+          <EmailSignup source="cogtrack" variant="cogtrack" cta="Email me at launch" />
+        </div>
       </section>
 
       <footer className="ctk-footer">
@@ -521,7 +514,9 @@ const CSS = `
     radial-gradient(120% 120% at 0% 100%, rgba(120,90,240,.30), transparent 55%),
     linear-gradient(160deg,#3a1560,#26123f 60%,#1c0f36);
 }
-.ctk-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:34px;}
+.ctk-cta-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px 16px;margin-top:34px;}
+.ctk-final-form{display:flex;justify-content:center;margin-top:30px;}
+.ctk-final-form form{text-align:left;}
 .ctk-badge{
   display:inline-flex;align-items:center;gap:8px;
   padding:9px 15px;border-radius:999px;
