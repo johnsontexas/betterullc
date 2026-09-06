@@ -54,6 +54,11 @@ export function Footer() {
                   CogTrack
                 </Link>
               </li>
+              <li>
+                <Link href="/Terrarium" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                  Terrarium <span className="text-xs opacity-60">· soon</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
