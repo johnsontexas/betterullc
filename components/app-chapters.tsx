@@ -14,7 +14,7 @@ type Chapter = {
   accent: string;
   muted: string;
   ghost: string;
-  art: "rings" | "reticle" | "bars";
+  art: "rings" | "reticle" | "bars" | "windows";
 };
 
 const chapters: Chapter[] = [
@@ -68,6 +68,24 @@ const chapters: Chapter[] = [
     ghost: "rgba(255,255,255,0.10)",
     art: "bars",
   },
+  {
+    n: "04",
+    kicker: "Desktop app · Coming soon",
+    name: "Terrarium",
+    line: "Not a phone app — a desktop one. Browser tabs, notes, timers and mini-apps arranged on a pinboard, saved to disk, synced across Mac and Windows.",
+    points: [
+      "A pinboard of floating windows and workspaces",
+      "Real Chromium tabs, notes, files, a ⌘K command palette",
+      "macOS now, Windows next — your whole setup travels with you",
+    ],
+    href: "/Terrarium",
+    cta: "Preview Terrarium",
+    bg: "#0e1117",
+    accent: "#8990f4",
+    muted: "rgba(255,255,255,0.66)",
+    ghost: "rgba(255,255,255,0.08)",
+    art: "windows",
+  },
 ];
 
 function Art({ kind, accent }: { kind: Chapter["art"]; accent: string }) {
@@ -117,6 +135,40 @@ function Art({ kind, accent }: { kind: Chapter["art"]; accent: string }) {
         <line x1="120" y1="138" x2="120" y2="162" stroke={accent} strokeWidth="5" strokeLinecap="round" />
         <line x1="78" y1="120" x2="102" y2="120" stroke={accent} strokeWidth="5" strokeLinecap="round" />
         <line x1="138" y1="120" x2="162" y2="120" stroke={accent} strokeWidth="5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (kind === "windows") {
+    return (
+      <svg viewBox="0 0 240 240" className="w-full max-w-[340px]" role="img" aria-label="Floating windows on a canvas">
+        <rect x="20" y="20" width="200" height="200" rx="14" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" strokeDasharray="4 8" />
+        {[
+          { x: 40, y: 52, w: 116, h: 84, hl: false },
+          { x: 96, y: 96, w: 110, h: 78, hl: true },
+          { x: 58, y: 132, w: 92, h: 60, hl: false },
+        ].map((win, i) => (
+          <g key={i}>
+            <rect
+              x={win.x}
+              y={win.y}
+              width={win.w}
+              height={win.h}
+              rx="9"
+              fill={win.hl ? accent : "#0e1117"}
+              stroke={win.hl ? accent : "rgba(255,255,255,0.28)"}
+              strokeWidth="2"
+            />
+            <line
+              x1={win.x + 10}
+              y1={win.y + 13}
+              x2={win.x + win.w - 10}
+              y2={win.y + 13}
+              stroke={win.hl ? "rgba(14,17,23,0.5)" : "rgba(255,255,255,0.28)"}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </g>
+        ))}
       </svg>
     );
   }

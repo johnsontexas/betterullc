@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/#apps", label: "Apps" },
+  { href: "/Terrarium", label: "Terrarium" },
   { href: "/#team", label: "Team" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
@@ -29,7 +30,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
