@@ -150,10 +150,37 @@ h6 {
   }
 }
 
+/* Gliding, never-ending app shelf (homepage hero) */
+.app-shelf-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.app-shelf {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  padding-inline: 0.5rem;
+  animation: app-shelf 40s linear infinite;
+}
+@keyframes app-shelf {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.app-shelf-wrap:hover .app-shelf,
+.app-shelf-wrap:focus-within .app-shelf {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
-  .marquee {
+  .marquee,
+  .app-shelf {
     animation: none;
+  }
+  .app-shelf-wrap {
+    overflow-x: auto;
   }
   .reveal {
     opacity: 1;
