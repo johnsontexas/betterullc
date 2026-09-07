@@ -1,149 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Dumbbell, Crosshair, Brain, AppWindow } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { fetchDownloadsTotal } from "@/lib/site-stats";
 
-type App = {
-  name: string;
-  sub: string;
-  status: string;
-  href: string;
-  external?: boolean;
-  /** full card background — a gradient, not a flat fill */
-  bg: string;
-  accent: string;
-  soft: string;
-  ring?: string;
-  Icon: typeof Dumbbell;
-};
-
-const apps: App[] = [
-  {
-    name: "BetterU",
-    sub: "Social fitness",
-    status: "On iOS",
-    href: "https://betteruai.com",
-    external: true,
-    bg: "linear-gradient(155deg, #12b061 0%, #0a8043 52%, #065a30 100%)",
-    accent: "#ffffff",
-    soft: "rgba(255,255,255,0.82)",
-    Icon: Dumbbell,
-  },
-  {
-    name: "Snapshot",
-    sub: "Photo-tag game",
-    status: "On iOS",
-    href: "/snapshot",
-    bg: "linear-gradient(155deg, #1c2128 0%, #0b0d10 55%, #050608 100%)",
-    accent: "#34d17f",
-    soft: "rgba(255,255,255,0.64)",
-    ring: "rgba(255,255,255,0.10)",
-    Icon: Crosshair,
-  },
-  {
-    name: "CogTrack",
-    sub: "Mind training",
-    status: "Soon",
-    href: "/cogtrack",
-    bg: "linear-gradient(155deg, #3f2185 0%, #241049 55%, #160a30 100%)",
-    accent: "#c9b8ff",
-    soft: "rgba(255,255,255,0.70)",
-    Icon: Brain,
-  },
-  {
-    name: "Terrarium",
-    sub: "Desktop app",
-    status: "Soon",
-    href: "/Terrarium",
-    bg: "linear-gradient(155deg, #232a3d 0%, #0e1117 55%, #080a0f 100%)",
-    accent: "#8990f4",
-    soft: "rgba(255,255,255,0.64)",
-    ring: "rgba(137,144,244,0.30)",
-    Icon: AppWindow,
-  },
+// wayfinding index — mirrors the numbered chapters in <AppChapters />.
+// clicking an entry scrolls to that app's full section below.
+const index = [
+  { n: "01", name: "BetterU", tag: "Social fitness", slug: "betteru" },
+  { n: "02", name: "Snapshot", tag: "Photo-tag game", slug: "snapshot" },
+  { n: "03", name: "CogTrack", tag: "Mind training", slug: "cogtrack" },
+  { n: "04", name: "Terrarium", tag: "Desktop app", slug: "terrarium" },
 ];
 
-function AppCard({ app }: { app: App }) {
-  const { Icon } = app;
-
-  const inner = (
-    <>
-      {/* top-left sheen so the gradient reads as light, not flat */}
-      <span
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 80% at 18% 0%, rgba(255,255,255,0.16), transparent 58%)",
-        }}
-        aria-hidden
-      />
-      <Icon
-        className="pointer-events-none absolute -bottom-7 -right-7 h-36 w-36 md:h-40 md:w-40"
-        style={{ color: app.accent, opacity: 0.1 }}
-        aria-hidden
-      />
-      <div className="relative z-10 flex h-full flex-col">
-        <div className="flex items-center justify-between">
-          <span
-            className="grid h-10 w-10 place-items-center rounded-xl"
-            style={{ background: "rgba(255,255,255,0.14)", color: app.accent }}
-          >
-            <Icon className="h-5 w-5" />
-          </span>
-          <span
-            className="whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em]"
-            style={{ background: "rgba(255,255,255,0.14)", color: app.soft }}
-          >
-            {app.status}
-          </span>
-        </div>
-
-        <div className="mt-auto pt-8 sm:pt-12">
-          <div className="font-display text-2xl font-extrabold leading-none tracking-[-0.02em] text-white md:text-[1.8rem]">
-            {app.name}
-          </div>
-          <div className="mt-1.5 text-sm" style={{ color: app.soft }}>
-            {app.sub}
-          </div>
-          <div
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold"
-            style={{ color: app.accent }}
-          >
-            Open
-            <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-
-  const className =
-    "group relative flex w-[248px] shrink-0 flex-col overflow-hidden rounded-[1.4rem] p-5 transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_32px_70px_-26px_rgba(16,19,15,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary sm:w-[300px] sm:p-6 sm:min-h-[350px] min-h-[240px]";
-
-  const style: React.CSSProperties = {
-    background: app.bg,
-    boxShadow: app.ring ? `inset 0 0 0 1px ${app.ring}` : undefined,
-  };
-
-  return app.external ? (
-    <a
-      href={app.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Open ${app.name}`}
-      className={className}
-      style={style}
-    >
-      {inner}
-    </a>
-  ) : (
-    <Link href={app.href} aria-label={`Open ${app.name}`} className={className} style={style}>
-      {inner}
-    </Link>
-  );
-}
-
-export function Hero() {
-  // duplicated once so the shelf loops seamlessly (translateX -50%)
-  const loop = [...apps, ...apps];
+export async function Hero() {
+  const downloads = await fetchDownloadsTotal();
 
   return (
     <section className="relative bg-background pt-28 md:pt-32 pb-16 md:pb-20 overflow-hidden">
@@ -152,32 +21,62 @@ export function Hero() {
           <div className="flex items-center gap-3 mb-5 animate-fade-in">
             <span className="brand-rule" />
             <span className="text-accent text-xs font-semibold tracking-[0.16em] uppercase">
-              BetterU LLC
+              Get better, together
             </span>
           </div>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl animate-fade-in stagger-1">
-            We&apos;re a small studio building social apps &mdash; things you do
-            <span className="text-foreground font-medium"> with your friends</span>, not alone.
-          </p>
-          <h1 className="mt-6 font-display font-extrabold text-foreground leading-[1.0] tracking-[-0.035em] text-[clamp(2.6rem,7vw,4.25rem)] animate-fade-in stagger-2">
+          <h1 className="font-display font-extrabold text-foreground leading-[1.0] tracking-[-0.035em] text-[clamp(2.6rem,7vw,4.25rem)] animate-fade-in stagger-1">
             Our apps.
           </h1>
-          <p className="mt-3 text-[15px] text-muted-foreground animate-fade-in stagger-2">
-            Saw one on Instagram? Grab it here.
+          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-lg animate-fade-in stagger-2">
+            Social apps for doing things with your friends. Tap the one you&apos;re after.
           </p>
-        </div>
-      </div>
 
-      {/* never-ending, edge-to-edge glide */}
-      <div className="app-shelf-wrap mt-10 md:mt-12 animate-fade-in stagger-3">
-        <div className="app-shelf">
-          {loop.map((app, i) => (
-            <AppCard key={`${app.name}-${i}`} app={app} />
+          {downloads ? (
+            <p className="mt-5 inline-flex items-center gap-2 text-sm text-muted-foreground animate-fade-in stagger-2">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 motion-safe:animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              <span>
+                <strong className="font-semibold text-foreground tabular-nums">
+                  {downloads.toLocaleString()}
+                </strong>{" "}
+                downloads across our apps
+              </span>
+            </p>
+          ) : null}
+        </div>
+
+        {/* table of contents — number + app, jumps to the section below */}
+        <nav
+          aria-label="Our apps"
+          className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-border bg-border animate-fade-in stagger-3"
+        >
+          {index.map((app) => (
+            <Link
+              key={app.slug}
+              href={`/#${app.slug}`}
+              className="group flex items-center gap-4 bg-background px-5 py-5 transition-colors hover:bg-secondary"
+            >
+              <span className="font-display text-xl font-extrabold tracking-[-0.02em] text-primary/40 tabular-nums group-hover:text-primary">
+                {app.n}
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-[15px] font-bold text-foreground">
+                  {app.name}
+                </span>
+                <span className="block text-[13px] text-muted-foreground truncate">
+                  {app.tag}
+                </span>
+              </span>
+              <ArrowRight
+                size={15}
+                className="ml-auto shrink-0 text-muted-foreground transition-transform group-hover:translate-y-0.5 group-hover:text-primary"
+              />
+            </Link>
           ))}
-        </div>
-      </div>
+        </nav>
 
-      <div className="max-w-7xl mx-auto px-6">
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm animate-fade-in stagger-4">
           <Link
             href="/#apps"

@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 
 type Chapter = {
   n: string;
+  slug: string;
   kicker: string;
   name: string;
   line: string;
@@ -20,6 +21,7 @@ type Chapter = {
 const chapters: Chapter[] = [
   {
     n: "01",
+    slug: "betteru",
     kicker: "Social fitness · On the App Store",
     name: "BetterU Social Fitness",
     line: "Bring your friends, set goals, and turn just showing up into the thing you compete on.",
@@ -34,6 +36,7 @@ const chapters: Chapter[] = [
   },
   {
     n: "02",
+    slug: "snapshot",
     kicker: "Photo tag game · On the App Store",
     name: "Snapshot",
     line: "Everyone gets a secret target and a task. Catch them on camera before someone catches you.",
@@ -52,6 +55,7 @@ const chapters: Chapter[] = [
   },
   {
     n: "03",
+    slug: "cogtrack",
     kicker: "Mind training · Coming soon",
     name: "CogTrack",
     line: "A 60-second daily check-in and five science-backed tests turn minutes into clear trends over time.",
@@ -70,6 +74,7 @@ const chapters: Chapter[] = [
   },
   {
     n: "04",
+    slug: "terrarium",
     kicker: "Desktop app · Coming soon",
     name: "Terrarium",
     line: "Not a phone app — a desktop one. Browser tabs, notes, timers and mini-apps arranged on a pinboard, saved to disk, synced across Mac and Windows.",
@@ -215,7 +220,12 @@ export function AppChapters() {
       {chapters.map((c, i) => {
         const flip = i % 2 === 1;
         return (
-          <section key={c.name} style={{ background: c.bg, color: "#ffffff" }}>
+          <section
+            key={c.name}
+            id={c.slug}
+            className="scroll-mt-20"
+            style={{ background: c.bg, color: "#ffffff" }}
+          >
             <div className="max-w-7xl mx-auto px-6 py-24 md:py-32">
               <div
                 className={`grid md:grid-cols-2 gap-12 lg:gap-20 items-center ${
