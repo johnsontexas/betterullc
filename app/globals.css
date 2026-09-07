@@ -153,15 +153,18 @@ h6 {
 /* Gliding, never-ending app shelf (homepage hero) */
 .app-shelf-wrap {
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 .app-shelf {
   display: flex;
-  gap: 1rem;
   width: max-content;
-  padding-inline: 0.5rem;
-  animation: app-shelf 40s linear infinite;
+  animation: app-shelf 44s linear infinite;
+}
+/* per-card margin (not flex `gap`) so the trailing gutter is included in the
+   track width — makes translateX(-50%) land card N+1 exactly on card 1 */
+.app-shelf > * {
+  margin-right: 1rem;
 }
 @keyframes app-shelf {
   to {
@@ -171,6 +174,14 @@ h6 {
 .app-shelf-wrap:hover .app-shelf,
 .app-shelf-wrap:focus-within .app-shelf {
   animation-play-state: paused;
+}
+@media (max-width: 640px) {
+  .app-shelf {
+    animation-duration: 24s;
+  }
+  .app-shelf > * {
+    margin-right: 0.75rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

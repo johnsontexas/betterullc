@@ -7,6 +7,7 @@ type App = {
   status: string;
   href: string;
   external?: boolean;
+  /** full card background — a gradient, not a flat fill */
   bg: string;
   accent: string;
   soft: string;
@@ -21,9 +22,9 @@ const apps: App[] = [
     status: "On iOS",
     href: "https://betteruai.com",
     external: true,
-    bg: "#0a8043",
+    bg: "linear-gradient(155deg, #12b061 0%, #0a8043 52%, #065a30 100%)",
     accent: "#ffffff",
-    soft: "rgba(255,255,255,0.78)",
+    soft: "rgba(255,255,255,0.82)",
     Icon: Dumbbell,
   },
   {
@@ -31,10 +32,10 @@ const apps: App[] = [
     sub: "Photo-tag game",
     status: "On iOS",
     href: "/snapshot",
-    bg: "#0b0d10",
-    accent: "#22c55e",
-    soft: "rgba(255,255,255,0.62)",
-    ring: "rgba(255,255,255,0.09)",
+    bg: "linear-gradient(155deg, #1c2128 0%, #0b0d10 55%, #050608 100%)",
+    accent: "#34d17f",
+    soft: "rgba(255,255,255,0.64)",
+    ring: "rgba(255,255,255,0.10)",
     Icon: Crosshair,
   },
   {
@@ -42,9 +43,9 @@ const apps: App[] = [
     sub: "Mind training",
     status: "Soon",
     href: "/cogtrack",
-    bg: "#241049",
+    bg: "linear-gradient(155deg, #3f2185 0%, #241049 55%, #160a30 100%)",
     accent: "#c9b8ff",
-    soft: "rgba(255,255,255,0.68)",
+    soft: "rgba(255,255,255,0.70)",
     Icon: Brain,
   },
   {
@@ -52,10 +53,10 @@ const apps: App[] = [
     sub: "Desktop app",
     status: "Soon",
     href: "/Terrarium",
-    bg: "#0e1117",
+    bg: "linear-gradient(155deg, #232a3d 0%, #0e1117 55%, #080a0f 100%)",
     accent: "#8990f4",
-    soft: "rgba(255,255,255,0.62)",
-    ring: "rgba(137,144,244,0.28)",
+    soft: "rgba(255,255,255,0.64)",
+    ring: "rgba(137,144,244,0.30)",
     Icon: AppWindow,
   },
 ];
@@ -65,29 +66,38 @@ function AppCard({ app }: { app: App }) {
 
   const inner = (
     <>
+      {/* top-left sheen so the gradient reads as light, not flat */}
+      <span
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 18% 0%, rgba(255,255,255,0.16), transparent 58%)",
+        }}
+        aria-hidden
+      />
       <Icon
-        className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 md:h-36 md:w-36"
-        style={{ color: app.accent, opacity: 0.09 }}
+        className="pointer-events-none absolute -bottom-7 -right-7 h-36 w-36 md:h-40 md:w-40"
+        style={{ color: app.accent, opacity: 0.1 }}
         aria-hidden
       />
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-center justify-between">
           <span
             className="grid h-10 w-10 place-items-center rounded-xl"
-            style={{ background: "rgba(255,255,255,0.12)", color: app.accent }}
+            style={{ background: "rgba(255,255,255,0.14)", color: app.accent }}
           >
             <Icon className="h-5 w-5" />
           </span>
           <span
             className="whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.1em]"
-            style={{ background: "rgba(255,255,255,0.12)", color: app.soft }}
+            style={{ background: "rgba(255,255,255,0.14)", color: app.soft }}
           >
             {app.status}
           </span>
         </div>
 
-        <div className="mt-auto pt-7 sm:pt-10">
-          <div className="font-display text-2xl font-extrabold leading-none tracking-[-0.02em] text-white md:text-[1.7rem]">
+        <div className="mt-auto pt-8 sm:pt-12">
+          <div className="font-display text-2xl font-extrabold leading-none tracking-[-0.02em] text-white md:text-[1.8rem]">
             {app.name}
           </div>
           <div className="mt-1.5 text-sm" style={{ color: app.soft }}>
@@ -106,7 +116,7 @@ function AppCard({ app }: { app: App }) {
   );
 
   const className =
-    "group relative flex w-[244px] shrink-0 flex-col overflow-hidden rounded-2xl p-5 transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-24px_rgba(16,19,15,0.45)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary sm:w-[292px] sm:p-6 sm:min-h-[340px] min-h-[236px]";
+    "group relative flex w-[248px] shrink-0 flex-col overflow-hidden rounded-[1.4rem] p-5 transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_32px_70px_-26px_rgba(16,19,15,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary sm:w-[300px] sm:p-6 sm:min-h-[350px] min-h-[240px]";
 
   const style: React.CSSProperties = {
     background: app.bg,
@@ -142,20 +152,24 @@ export function Hero() {
           <div className="flex items-center gap-3 mb-5 animate-fade-in">
             <span className="brand-rule" />
             <span className="text-accent text-xs font-semibold tracking-[0.16em] uppercase">
-              Get better, together
+              BetterU LLC
             </span>
           </div>
-          <h1 className="font-display font-extrabold text-foreground leading-[1.0] tracking-[-0.035em] text-[clamp(2.6rem,7vw,4.25rem)] animate-fade-in stagger-1">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-xl animate-fade-in stagger-1">
+            We&apos;re a small studio building social apps &mdash; things you do
+            <span className="text-foreground font-medium"> with your friends</span>, not alone.
+          </p>
+          <h1 className="mt-6 font-display font-extrabold text-foreground leading-[1.0] tracking-[-0.035em] text-[clamp(2.6rem,7vw,4.25rem)] animate-fade-in stagger-2">
             Our apps.
           </h1>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-lg animate-fade-in stagger-2">
-            Social apps for doing things with your friends. Tap the one you&apos;re after.
+          <p className="mt-3 text-[15px] text-muted-foreground animate-fade-in stagger-2">
+            Saw one on Instagram? Grab it here.
           </p>
         </div>
       </div>
 
       {/* never-ending, edge-to-edge glide */}
-      <div className="app-shelf-wrap mt-9 md:mt-12 animate-fade-in stagger-3">
+      <div className="app-shelf-wrap mt-10 md:mt-12 animate-fade-in stagger-3">
         <div className="app-shelf">
           {loop.map((app, i) => (
             <AppCard key={`${app.name}-${i}`} app={app} />
