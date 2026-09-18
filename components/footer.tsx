@@ -1,88 +1,83 @@
 import Link from "next/link";
 import { Instagram } from "lucide-react";
+import { APPS } from "@/lib/apps";
 
 export function Footer() {
   return (
-    <footer className="bg-secondary border-t border-border">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-lg brand-chip flex items-center justify-center">
-                <span className="font-bold text-sm font-display">B</span>
-              </div>
-              <span className="text-foreground font-semibold tracking-wide font-display">BETTERU LLC</span>
+    <footer className="relative bg-ink border-t border-white/[0.06] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 md:px-8 pt-16 pb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+          <div className="col-span-2">
+            <div className="flex items-center gap-3">
+              <span className="brand-chip w-8 h-8 rounded-full grid place-items-center font-display font-extrabold text-sm">
+                B
+              </span>
+              <span className="font-display font-bold text-white">BetterU LLC</span>
             </div>
-            <span className="brand-rule mb-4" />
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-md mt-4 mb-4">
-              We build social apps around one idea: people get better, together. From social fitness
-              to friendly competition, we make progress something you share.
+            <p className="mt-5 text-white/50 text-sm leading-relaxed max-w-sm">
+              Social apps built around one idea: people get better, together.
             </p>
             <a
               href="https://www.instagram.com/betterullc"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
+              className="mt-5 inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm"
             >
               <Instagram size={16} />
-              Follow us on Instagram · @betterullc
+              @betterullc
             </a>
           </div>
 
-          {/* Products */}
           <div>
-            <h4 className="text-foreground font-medium mb-4 text-sm tracking-wide">Products</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="https://betteruai.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                >
-                  BetterU Social Fitness
-                </a>
-              </li>
-              <li>
-                <Link href="/snapshot" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Snapshot
-                </Link>
-              </li>
-              <li>
-                <Link href="/cogtrack" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  CogTrack
-                </Link>
-              </li>
-              <li>
-                <Link href="/Terrarium" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Terrarium <span className="text-xs opacity-60">· soon</span>
-                </Link>
-              </li>
+            <h4 className="text-white/40 text-xs font-semibold tracking-[0.16em] uppercase mb-4">Apps</h4>
+            <ul className="space-y-2.5">
+              {APPS.map((a) => (
+                <li key={a.id}>
+                  {a.external ? (
+                    <a
+                      href={a.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: a.color }} />
+                      {a.short}
+                    </a>
+                  ) : (
+                    <Link
+                      href={a.href}
+                      className="group inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: a.color }} />
+                      {a.short}
+                      {a.status.startsWith("Coming") && <span className="text-xs text-white/35">· soon</span>}
+                    </Link>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <h4 className="text-foreground font-medium mb-4 text-sm tracking-wide">Legal</h4>
-            <ul className="space-y-2">
+            <h4 className="text-white/40 text-xs font-semibold tracking-[0.16em] uppercase mb-4">Legal</h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/privacy" className="text-white/70 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/terms" className="text-white/70 hover:text-white transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/snapshot/privacy" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/snapshot/privacy" className="text-white/70 hover:text-white transition-colors">
                   Snapshot Privacy
                 </Link>
               </li>
               <li>
-                <Link href="/snapshot/terms" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/snapshot/terms" className="text-white/70 hover:text-white transition-colors">
                   Snapshot Terms
                 </Link>
               </li>
@@ -90,14 +85,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">
-            &copy; {new Date().getFullYear()} BetterU LLC. All rights reserved.
-          </p>
-          <a
-            href="mailto:app@betterullc.com"
-            className="text-primary hover:text-primary/80 transition-colors text-sm"
-          >
+        {/* oversized wordmark */}
+        <p
+          className="footer-mark mt-16 md:mt-20 font-display font-extrabold leading-[0.8] tracking-[-0.06em] select-none"
+          aria-hidden
+        >
+          BetterU
+        </p>
+
+        <div className="mt-6 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row justify-between gap-3 text-sm text-white/45">
+          <p>&copy; {new Date().getFullYear()} BetterU LLC</p>
+          <a href="mailto:app@betterullc.com" className="hover:text-white transition-colors">
             app@betterullc.com
           </a>
         </div>

@@ -30,3 +30,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw screenshot uploads: the site uses the optimized copies in public/apps/.
+# Some raw shots contain personal info (an email address, a private chat): never publish.
+public/Betteru LLC/
+public/screenshots/
+public/Snapshot/
+public/cogtrack/
+.DS_Store

@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 import { Linkedin } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 
@@ -7,82 +10,94 @@ const team = [
     name: "Lucas Borgarello",
     image: "/lucas.jpeg",
     linkedin: "https://www.linkedin.com/in/lucas-borgarello-322804356",
+    color: "#3ee0e0",
   },
   {
     name: "Daniel Johnson",
     image: "/dan3.JPG",
     linkedin: "https://www.linkedin.com/in/johnsontx",
+    color: "#f97316",
   },
   {
     name: "Enrique Ortiz",
     image: "/enrique.jpeg",
     linkedin: "https://www.linkedin.com/in/enrique-ortiz-397588399",
+    color: "#22c55e",
   },
 ];
 
+// Card tilts toward the pointer (desktop); flat on touch.
+function TiltCard({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  return (
+    <div
+      ref={ref}
+      className="tilt"
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse" || !ref.current) return;
+        const r = ref.current.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        ref.current.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-4px)`;
+      }}
+      onPointerLeave={() => {
+        if (ref.current) ref.current.style.transform = "";
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function Team() {
   return (
-    <section id="team" className="py-24 md:py-28 bg-secondary border-t border-border">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="team" className="relative bg-ink py-24 md:py-32 border-t border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-5 md:px-8">
         <Reveal>
           <span className="brand-rule mb-6" />
-          <h2 className="font-display font-extrabold text-foreground leading-[1.02] tracking-[-0.03em] text-[clamp(1.9rem,4vw,3rem)] max-w-3xl text-balance">
+          <h2 className="font-display font-extrabold text-white leading-[1.0] tracking-[-0.035em] text-[clamp(2rem,4.6vw,3.6rem)] max-w-3xl text-balance">
             Three co-founders. We build the apps together.
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg max-w-2xl text-pretty">
-            We split the work loosely and all end up touching every part of it — product, the
-            apps themselves, growth and the infrastructure underneath.
+          <p className="mt-4 text-white/55 text-lg max-w-2xl text-pretty">
+            We split the work loosely and all end up touching every part of it: product, the apps
+            themselves, growth and the infrastructure underneath.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {team.map((member, i) => (
-            <Reveal key={member.name} delay={i * 90}>
-              <div className="group">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted border border-border">
+        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+          {team.map((m, i) => (
+            <Reveal key={m.name} delay={i * 90}>
+              <TiltCard>
+                <div className="group relative aspect-[4/5] overflow-hidden rounded-[22px] bg-white/5">
                   <Image
-                    src={member.image}
-                    alt={member.name}
+                    src={m.image}
+                    alt={m.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    sizes="(min-width: 640px) 33vw, 100vw"
+                    className="object-cover grayscale-[35%] transition-[transform,filter] duration-500 group-hover:scale-[1.04] group-hover:grayscale-0"
                   />
-                </div>
-                <div className="mt-5 flex items-center justify-between gap-3">
-                  <div>
-                    <h3 className="font-display font-bold text-foreground text-xl">{member.name}</h3>
-                    <p className="text-accent text-xs font-semibold tracking-[0.14em] uppercase mt-1">
-                      Co-founder
-                    </p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                  <span className="absolute top-4 left-4 h-1.5 w-10 rounded-full" style={{ background: m.color }} />
+                  <div className="absolute bottom-0 inset-x-0 p-5 flex items-end justify-between gap-3">
+                    <div>
+                      <h3 className="font-display font-bold text-white text-xl">{m.name}</h3>
+                      <p className="text-white/55 text-xs font-semibold tracking-[0.16em] uppercase mt-1">Co-founder</p>
+                    </div>
+                    <a
+                      href={m.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${m.name} on LinkedIn`}
+                      className="w-10 h-10 shrink-0 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white hover:text-black transition-colors"
+                    >
+                      <Linkedin size={16} />
+                    </a>
                   </div>
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${member.name} on LinkedIn`}
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors shrink-0"
-                  >
-                    <Linkedin size={16} />
-                    LinkedIn
-                  </a>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
-
-        <Reveal>
-          <div className="mt-16 flex flex-col sm:flex-row sm:items-center gap-4 border-t-2 border-foreground pt-8">
-            <p className="font-display font-bold text-foreground text-xl flex-1">
-              Want to talk? We read everything.
-            </p>
-            <a
-              href="mailto:app@betterullc.com"
-              className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity w-fit"
-            >
-              app@betterullc.com
-            </a>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

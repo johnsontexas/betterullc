@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ScreenRail } from "@/components/screen-rail";
 
 export const metadata: Metadata = {
   title: "Snapshot - Catch them in the act",
   description:
-    "Snapshot is a social game for your friend group. You get a secret target and a task — catch them doing it on camera, submit the proof, and don't finish last. Rounds, blind voting, and a punishment for the loser.",
+    "Snapshot is a social game for your friend group. You get a secret target and a task: catch them doing it on camera, submit the proof, and don't finish last. Rounds, blind voting, and a punishment for the loser.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -134,11 +135,11 @@ function VoteScreen() {
       <div className="snp-pad">
         <div className="snp-strong">Vote on submissions</div>
         <div className="snp-tiny snp-mb">
-          Blind voting — no names shown. Approve if the proof shows the task.
+          Blind voting, no names shown. Approve if the proof shows the task.
         </div>
         <div className="snp-card">
           <div className="snp-strong snp-mb">Hand On Forehead</div>
-          <div className="snp-tiny snp-mb">Proof (blind — assassin photo hidden until approved)</div>
+          <div className="snp-tiny snp-mb">Proof (blind: assassin photo hidden until approved)</div>
           <Photo />
           <div className="snp-btn-split">
             <span className="snp-btn-light snp-flex">Approve</span>
@@ -302,7 +303,7 @@ export default function SnapshotPage() {
               in the act.
             </h1>
             <p className="snp-body">
-              Snapshot is a social game for your friend group. You get a secret target and a task —
+              Snapshot is a social game for your friend group. You get a secret target and a task:
               catch them doing it on camera before someone catches you.
             </p>
             <div className="snp-cta-row">
@@ -339,7 +340,7 @@ export default function SnapshotPage() {
         variant="target"
         step="01 · The setup"
         title={<>You get a target and a task.</>}
-        body="At the start of every round Snapshot hands you one person in the group and one thing to catch them doing — a pose, a gesture, a habit. Everyone is hunting someone."
+        body="At the start of every round Snapshot hands you one person in the group and one thing to catch them doing: a pose, a gesture, a habit. Everyone is hunting someone."
         phones={
           <>
             <Phone className="snp-p-back">
@@ -364,7 +365,7 @@ export default function SnapshotPage() {
             votes blind.
           </>
         }
-        body="Take a photo that clearly shows the task. Everyone else votes on the proof with no names attached — approve if it shows the task, reject if it doesn't."
+        body="Take a photo that clearly shows the task. Everyone else votes on the proof with no names attached. Approve if it shows the task, reject if it doesn't."
         phones={
           <>
             <Phone className="snp-p-back">
@@ -382,7 +383,7 @@ export default function SnapshotPage() {
         variant="feed"
         step="03 · The kill feed"
         title={<>Every hit hits the feed.</>}
-        body="Approved catches drop straight into the group chat — who got assassinated, by whom, the task, and the photo. Rejected attempts just quietly disappear."
+        body="Approved catches drop straight into the group chat: who got assassinated, by whom, the task, and the photo. Rejected attempts just quietly disappear."
         phones={
           <>
             <Phone className="snp-p-back">
@@ -407,7 +408,7 @@ export default function SnapshotPage() {
             Last place pays.
           </>
         }
-        body="+10 for a clean catch, −10 for getting caught. After the final round the group runs a 24-hour punishment vote — and whoever finished last does whatever wins."
+        body="+10 for a clean catch, −10 for getting caught. After the final round the group runs a 24-hour punishment vote, and whoever finished last does whatever wins."
         phones={
           <>
             <Phone className="snp-p-back">
@@ -418,6 +419,18 @@ export default function SnapshotPage() {
             </Phone>
           </>
         }
+      />
+
+      <ScreenRail
+        label="The real thing"
+        accent={GREEN}
+        shots={[
+          { src: "/apps/snapshot/hero.webp", alt: "Snapshot: your friends are the targets" },
+          { src: "/apps/snapshot/hunt.webp", alt: "Snapshot hunt screen" },
+          { src: "/apps/snapshot/vote.webp", alt: "Snapshot blind vote" },
+          { src: "/apps/snapshot/feed.webp", alt: "Snapshot group chat feed" },
+          { src: "/apps/snapshot/reckoning.webp", alt: "Snapshot leaderboard and punishment vote" },
+        ]}
       />
 
       {/* CTA */}

@@ -4,25 +4,42 @@
 const SUPABASE_URL = "https://yzxuupveyyonvrzaeefp.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_LV972rq-8atTjp9azv9QNQ_j5WGLwMu";
 
-/** Total downloads across all apps. Returns null if the value can't be read. */
-export async function fetchDownloadsTotal(): Promise<number | null> {
+export type SiteStats = {
+  downloads: number | null;
+  users: number | null;
+  /** users per app id (betteru / snapshot / cogtrack / terrarium) */
+  usersByApp: Record<string, number>;
+};
+
+/**
+ * Everything the homepage shows, in one request. `users_total` is written daily
+ * by the refresh-user-counts edge function, which pings every app's Supabase
+ * project (also keeping them from being paused for inactivity).
+ */
+export async function fetchSiteStats(): Promise<SiteStats> {
+  const empty: SiteStats = { downloads: null, users: null, usersByApp: {} };
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/site_stats?key=eq.downloads_total&select=value`,
+      `${SUPABASE_URL}/rest/v1/site_stats?key=in.(downloads_total,users_total)&select=key,value,detail`,
       {
         headers: {
           apikey: SUPABASE_PUBLISHABLE_KEY,
           Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
         },
-        // ISR: refresh at most hourly (the source only updates once a day)
         next: { revalidate: 3600 },
       },
     );
-    if (!res.ok) return null;
-    const rows: Array<{ value: number }> = await res.json();
-    const v = rows?.[0]?.value;
-    return typeof v === "number" && v > 0 ? v : null;
+    if (!res.ok) return empty;
+    const rows: Array<{ key: string; value: number; detail: { per_app?: Record<string, number> } | null }> =
+      await res.json();
+    const get = (k: string) => rows.find((r) => r.key === k);
+    const pos = (v: unknown) => (typeof v === "number" && v > 0 ? v : null);
+    return {
+      downloads: pos(get("downloads_total")?.value),
+      users: pos(get("users_total")?.value),
+      usersByApp: get("users_total")?.detail?.per_app ?? {},
+    };
   } catch {
-    return null;
+    return empty;
   }
 }

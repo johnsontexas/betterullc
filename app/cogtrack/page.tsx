@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { EmailSignup } from "@/components/email-signup";
+import { ScreenRail } from "@/components/screen-rail";
 
 export const metadata: Metadata = {
   title: "CogTrack - Your mind, measured daily",
   description:
-    "CogTrack turns a daily check-in and five science-backed cognitive tests into clear trends over time. Reaction time, inhibition, working memory and sustained attention — about a minute each.",
+    "CogTrack turns a daily check-in and five science-backed cognitive tests into clear trends over time. Reaction time, inhibition, working memory and sustained attention. About a minute each.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -316,7 +317,7 @@ export default function CogTrackPage() {
               measured daily.
             </h1>
             <p className="ctk-body">
-              One quick check-in logs your streak, sleep and mood — so every score
+              One quick check-in logs your streak, sleep and mood, so every score
               has context.
             </p>
             <div className="ctk-cta-row">
@@ -365,7 +366,7 @@ export default function CogTrackPage() {
         variant="timing"
         flip
         title={<>Real tasks, real timing.</>}
-        body="Stroop, Go/No-Go, N-Back — millisecond-accurate, not gamified guesswork."
+        body="Stroop, Go/No-Go, N-Back: millisecond-accurate, not gamified guesswork."
         phones={
           <>
             <Phone className="ctk-p-back">
@@ -423,6 +424,21 @@ export default function CogTrackPage() {
             </Phone>
           </>
         }
+      />
+
+      <ScreenRail
+        label="A look inside"
+        accent="#ff5a8a"
+        shots={[
+          { src: "/apps/cogtrack/home.webp", alt: "CogTrack home with streak and daily check-in" },
+          { src: "/apps/cogtrack/tests.webp", alt: "CogTrack tests list" },
+          { src: "/apps/cogtrack/stroop.webp", alt: "CogTrack Stroop test" },
+          { src: "/apps/cogtrack/reaction.webp", alt: "CogTrack reaction time result: 387 ms" },
+          { src: "/apps/cogtrack/memory.webp", alt: "CogTrack memory grid test" },
+          { src: "/apps/cogtrack/training.webp", alt: "CogTrack training mode" },
+          { src: "/apps/cogtrack/data.webp", alt: "CogTrack trend charts" },
+          { src: "/apps/cogtrack/history.webp", alt: "CogTrack test history" },
+        ]}
       />
 
       {/* CTA */}

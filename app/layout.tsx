@@ -14,13 +14,13 @@ const dmSans = DM_Sans({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-mono-jb",
 });
 
 export const metadata: Metadata = {
   title: "BetterU LLC - Get better, together",
   description:
-    "BetterU LLC builds social apps around one idea: people improve faster with their friends in it with them. BetterU Social Fitness, Snapshot, and CogTrack.",
+    "BetterU LLC builds social apps around one idea: people improve faster with their friends in it with them. BetterU Social Fitness, Snapshot, CogTrack and Terrarium.",
   keywords: ["BetterU", "social fitness", "snapshot", "cogtrack", "cognitive training", "mobile apps", "startup"],
   authors: [{ name: "BetterU LLC" }],
   openGraph: {

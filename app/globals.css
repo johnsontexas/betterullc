@@ -31,6 +31,8 @@
   --color-accent: #c2410c;
   --color-accent-foreground: #ffffff;
 
+  --color-ink: #07080a;
+
   --color-border: #e3e7e0;
   --color-input: #e3e7e0;
   --color-ring: #0a8043;
@@ -38,7 +40,7 @@
 
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-dm-sans), "DM Sans", "Helvetica Neue", Helvetica, Arial, ui-sans-serif, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: var(--font-mono-jb), "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
@@ -97,67 +99,272 @@ h6 {
   color: #ffffff;
 }
 
-/* Animations — subtle entrance only, no glow, no float */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ----------------------------------------------------------------
+   Motion system
+   Most motion on the homepage is scrubbed by scroll from JS (see
+   use-scroll-progress.ts) and written straight to transforms. CSS here
+   covers entrances, idle loops and the little toys.
+   Everything settles under prefers-reduced-motion.
+----------------------------------------------------------------- */
+
+/* the homepage is dark end to end — paint the overscroll too */
+html:has(.home-dark),
+html:has(.home-dark) body {
+  background: #07080a;
+  background-image: none;
 }
 
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .animate-fade-in {
+  opacity: 0;
   animation: fade-in 0.6s ease-out forwards;
 }
-
 .stagger-1 { animation-delay: 0.08s; }
 .stagger-2 { animation-delay: 0.16s; }
 .stagger-3 { animation-delay: 0.24s; }
 .stagger-4 { animation-delay: 0.32s; }
 
+/* Animated brand gradient clipped to text */
+.text-gradient {
+  background: linear-gradient(100deg, #22c55e 0%, #3ee0e0 30%, #f97316 62%, #22c55e 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 9s ease-in-out infinite;
+}
+.text-gradient-static {
+  background: linear-gradient(100deg, #3ee0e0, #22c55e 45%, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes gradient-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* Top-of-page scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform-origin: 0 50%;
+  background: var(--brand-gradient);
+  z-index: 60;
+  will-change: transform;
+}
+
 /* Scroll reveal (paired with <Reveal>) */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.reveal-in {
   opacity: 1;
   transform: none;
 }
 
-/* Editorial ghost numeral used on the app chapters */
-.ghost-num {
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  font-size: clamp(4.5rem, 12vw, 9rem);
+/* ---------- hero ---------- */
+.hero-words {
+  font-size: clamp(3.1rem, 14.5vw, 5rem);
+}
+@media (min-width: 768px) {
+  .hero-words { font-size: clamp(3.5rem, 7.6vw, 8rem); }
+}
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 50% 55%, rgba(62, 224, 224, 0.06), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55));
+}
+.scroll-cue {
+  position: relative;
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 1px;
+  height: 40%;
+  background: #fff;
+  animation: cue 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes cue {
+  to { top: 100%; }
 }
 
-/* Infinite marquee strip */
-.marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
+/* ---------- app worlds ---------- */
+.world-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 60% at 78% 55%, color-mix(in srgb, var(--app) 13%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 10% 100%, color-mix(in srgb, var(--app2) 8%, transparent), transparent 70%);
 }
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
+.deck {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+.deck-card {
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform, opacity;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  -webkit-tap-highlight-color: transparent;
+}
+.deck-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.deck-shade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+.deck-card--phone {
+  width: min(52vw, calc((100svh - 360px) / 2.17));
+  border-radius: 13% / 6%;
+}
+.deck-card--desktop {
+  width: 86vw;
+  border-radius: 12px;
+  background: #161a21;
+}
+@media (min-width: 768px) {
+  .deck-shade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+.deck-card--phone { width: min(290px, 25vw, calc((100svh - 200px) / 2.17)); }
+  .deck-card--desktop { width: min(700px, 50vw); }
+}
+.win-bar {
+  display: flex;
+  gap: 6px;
+  padding: 9px 12px;
+  background: #1d222b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.win-bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #ff5f57;
+}
+.win-bar i:nth-child(2) { background: #febc2e; }
+.win-bar i:nth-child(3) { background: #28c840; }
+
+/* caption list: the live step opens, the rest collapse */
+.step-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+}
+.step-body > span { overflow: hidden; }
+.step-body[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.caption-swap {
+  animation: caption 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes caption {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- toys ---------- */
+.snap-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.snap-pop {
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  animation: snap-pop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes snap-pop {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+  to   { opacity: 0; transform: translate(-50%, -160%) scale(1); }
+}
+.snap-flash {
+  animation: flash 0.28s ease-out forwards;
+}
+@keyframes flash {
+  from { opacity: 0.35; }
+  to   { opacity: 0; }
+}
+.pin-dots {
+  background-image: radial-gradient(rgba(137, 144, 244, 0.22) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+}
+
+/* ---------- chrome ---------- */
+.menu-item {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.menu-item[data-open="true"] {
+  opacity: 1;
+  transform: none;
+}
+.tilt {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.footer-mark {
+  font-size: clamp(5rem, 26vw, 24rem);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-left: -0.04em;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .marquee {
-    animation: none;
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
+  .animate-fade-in,
   .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

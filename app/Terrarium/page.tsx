@@ -18,9 +18,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Terrarium — a desktop app, coming soon | BetterU LLC",
+  title: "Terrarium: a desktop app, coming soon | BetterU LLC",
   description:
-    "Terrarium is a desktop app: one customizable environment that holds your browser tabs, notes, timers and mini-apps on a pinboard — saved to disk and synced across Mac and Windows. In development.",
+    "Terrarium is a desktop app: one customizable environment that holds your browser tabs, notes, timers and mini-apps on a pinboard, saved to disk and synced across Mac and Windows. In development.",
 };
 
 const panelChips = [
@@ -108,10 +108,10 @@ function Feature({
 }
 
 const roadmap = [
-  "A third-party plugin runtime — web, worker and native tiers",
+  "A third-party plugin runtime: web, worker and native tiers",
   "Connectors with an MCP layer, so an in-app Claude gets tools for free",
-  "In-app Claude — an edge-bar chat, a full panel, and ⌘K",
-  "Cross-device sync — end-to-end encrypted layouts, notes and themes",
+  "In-app Claude: an edge-bar chat, a full panel, and ⌘K",
+  "Cross-device sync: end-to-end encrypted layouts, notes and themes",
   "A mobile companion shell",
   "The Windows port",
 ];
@@ -148,9 +148,9 @@ export default function TerrariumPage() {
               right where you left it.
             </h1>
             <p className="tr-body">
-              Terrarium is a desktop app — not a phone one. Browser tabs, notes, timers and mini-apps
+              Terrarium is a desktop app, not a phone one. Browser tabs, notes, timers and mini-apps
               on a pinboard you never have to rebuild. Quit, come back, and it&apos;s all still
-              there — down to the seconds on a running timer.
+              there, down to the seconds on a running timer.
             </p>
             <div className="tr-cta-row">
               <EmailSignup source="terrarium" variant="terrarium" cta="Email me at launch" />
@@ -165,7 +165,7 @@ export default function TerrariumPage() {
           <div className="tr-stage tr-stage-hero">
             <Win
               src="/Terrarium/desktop.jpg"
-              alt="The Terrarium desktop — floating windows on a pinboard"
+              alt="The Terrarium desktop: floating windows on a pinboard"
               className="tr-win-main"
             />
             <Win src="/Terrarium/command-palette.jpg" alt="" className="tr-win-float" />
@@ -179,9 +179,9 @@ export default function TerrariumPage() {
         title="A pinboard you pan and zoom."
         body="Drag any empty space to pan, from anywhere, at any zoom. ⌘-scroll zooms toward the cursor. Hit Fit and every window snaps into frame."
         points={[
-          "Floating windows — drag, resize, raise, snap to an edge to tile",
+          "Floating windows: drag, resize, raise, snap to an edge to tile",
           "Layers: send behind, keep normal, or pin always-on-top",
-          "Workspaces — a row of pills, each with its own windows and theme",
+          "Workspaces: a row of pills, each with its own windows and theme",
         ]}
         shot="/Terrarium/canvas.jpg"
         alt="Zoomed-out view of the Terrarium canvas with several windows"
@@ -192,7 +192,7 @@ export default function TerrariumPage() {
         num="02"
         step="The panels"
         title="Everything, in one window manager."
-        body="A real browser, real notes, real files — plus the small stuff you keep reaching for."
+        body="A real browser, real notes, real files, plus the small stuff you keep reaching for."
         points={[
           "Browser with real Chromium tabs and logins that stick",
           "Rich-text Notes with a saved library · a File viewer for images and PDFs",
@@ -207,7 +207,7 @@ export default function TerrariumPage() {
         num="03"
         step="⌘K"
         title="One keystroke to anything."
-        body="A fuzzy command palette over every action — open a panel of any type, run layout and zoom commands, jump between workspaces, open settings. Rebind the shortcut if ⌘K isn't yours."
+        body="A fuzzy command palette over every action: open a panel of any type, run layout and zoom commands, jump between workspaces, open settings. Rebind the shortcut if ⌘K isn't yours."
         shot="/Terrarium/command-palette.jpg"
         alt="The Terrarium command palette listing actions"
         flip
@@ -217,16 +217,16 @@ export default function TerrariumPage() {
         num="04"
         step="Make it yours"
         title="Themed down to the pixel."
-        body="Light and dark, glass chrome, styled scrollbars. Set the accent, text and background colour, or drop in a background image — for this workspace, or all of them at once."
+        body="Light and dark, glass chrome, styled scrollbars. Set the accent, text and background colour, or drop in a background image, for this workspace, or all of them at once."
         shot="/Terrarium/settings.jpg"
-        alt="Terrarium settings — appearance, shortcuts, browser and workspaces"
+        alt="Terrarium settings: appearance, shortcuts, browser and workspaces"
       />
 
       <Feature
         num="05"
         step="On every machine"
         title="The same desktop, wherever you open it."
-        body="Windows, positions, layers, note contents, workspaces and themes are kept as plain files — not locked inside one computer. They sync end-to-end encrypted, so the server only ever relays a blob. Open Terrarium on another machine and your setup is already there. macOS ships first; Windows is the next port."
+        body="Windows, positions, layers, note contents, workspaces and themes are kept as plain files, not locked inside one computer. They sync end-to-end encrypted, so the server only ever relays a blob. Open Terrarium on another machine and your setup is already there. macOS ships first; Windows is the next port."
         shot="/Terrarium/launcher.jpg"
         alt="The Terrarium launcher with a tile for every panel type"
         flip

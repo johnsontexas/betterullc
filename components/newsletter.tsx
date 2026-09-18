@@ -3,23 +3,21 @@ import { EmailSignup } from "@/components/email-signup";
 
 export function Newsletter() {
   return (
-    <section className="bg-background border-t border-border py-20 md:py-24">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="relative bg-ink overflow-hidden border-t border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-5 md:px-8 py-24 md:py-32">
         <Reveal>
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div>
-              <span className="brand-rule mb-5" />
-              <h2 className="font-display font-extrabold text-foreground leading-[1.05] tracking-[-0.03em] text-[clamp(1.8rem,3.6vw,2.6rem)] text-balance">
-                Get the occasional update
-              </h2>
-              <p className="mt-3 text-muted-foreground text-[15px] leading-relaxed max-w-md">
-                One email when we ship something new — a launch, a beta, a big
-                update. Nothing else.
-              </p>
-            </div>
-            <div className="md:justify-self-end w-full">
-              <EmailSignup source="general" variant="site" cta="Keep me posted" />
-            </div>
+          <p className="text-[11px] md:text-xs font-semibold tracking-[0.2em] uppercase text-white/45">
+            Next up
+          </p>
+          <h2 className="mt-4 font-display font-extrabold text-white leading-[0.95] tracking-[-0.04em] text-[clamp(2.6rem,8vw,6.5rem)] text-balance">
+            Be first to hear <span className="text-gradient">what&apos;s next.</span>
+          </h2>
+          <div className="mt-8 md:mt-10 grid md:grid-cols-[1fr_auto] gap-6 md:gap-12 items-end">
+            <p className="text-white/55 text-base md:text-lg max-w-md leading-relaxed">
+              One email when we ship something: CogTrack&apos;s launch, Terrarium&apos;s beta, a big
+              update. Nothing else.
+            </p>
+            <EmailSignup source="general" variant="ink" cta="Keep me posted" />
           </div>
         </Reveal>
       </div>

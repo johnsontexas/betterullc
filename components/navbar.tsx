@@ -1,81 +1,149 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { APPS } from "@/lib/apps";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/#apps", label: "Apps" },
-  { href: "/Terrarium", label: "Terrarium" },
-  { href: "/#team", label: "Team" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
-];
-
+// Floating pill. Shows which app world you're scrolled into, in that app's colour.
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setCurrent(e.target.id);
+          else setCurrent((c) => (c === e.target.id ? null : c));
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    APPS.forEach((a) => {
+      const el = document.getElementById(a.id);
+      if (el) io.observe(el);
+    });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
-      <div className="max-w-7xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-primary-foreground flex items-center justify-center">
-              <span className="text-primary font-bold text-sm font-display">B</span>
-            </div>
-            <span className="text-primary-foreground font-semibold tracking-wide text-lg font-display whitespace-nowrap">
-              BETTERU LLC
+    <>
+      <nav className="fixed top-3 md:top-4 inset-x-3 md:inset-x-0 z-50 flex justify-center pointer-events-none">
+        <div
+          className={`pointer-events-auto flex items-center gap-1 w-full md:w-auto rounded-full border pl-2 pr-2 py-1.5 transition-colors duration-300 ${
+            scrolled || open ? "bg-[#0d0f11]/90 border-white/10 backdrop-blur-md" : "bg-transparent border-transparent"
+          }`}
+        >
+          <Link href="/" className="flex items-center gap-2.5 pl-1 pr-3" onClick={() => setOpen(false)}>
+            <span className="brand-chip w-7 h-7 rounded-full grid place-items-center font-display font-extrabold text-[13px]">
+              B
+            </span>
+            <span className="font-display font-bold text-white text-[14px] tracking-wide whitespace-nowrap">
+              BetterU LLC
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm tracking-wide"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/#apps"
-              className="bg-primary-foreground text-primary px-5 py-2.5 rounded-lg font-medium text-sm hover:bg-primary-foreground/90 transition-colors whitespace-nowrap"
-            >
-              Our apps
-            </Link>
+          <div className="hidden md:flex items-center">
+            {APPS.map((a) => {
+              const on = current === a.id;
+              return (
+                <a
+                  key={a.id}
+                  href={`/#${a.id}`}
+                  className="relative px-3.5 py-2 rounded-full text-[13px] transition-colors"
+                  style={{ color: on ? "#07080a" : "rgba(255,255,255,0.7)", background: on ? a.color : "transparent" }}
+                >
+                  {a.short}
+                </a>
+              );
+            })}
+            <a href="/#team" className="px-3.5 py-2 rounded-full text-[13px] text-white/70 hover:text-white transition-colors">
+              Team
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-primary-foreground p-2"
-            aria-label="Toggle menu"
+          <a
+            href="mailto:app@betterullc.com"
+            className="hidden md:inline-flex ml-2 rounded-full bg-white text-black px-4 py-2 text-[13px] font-semibold hover:bg-white/90 transition-colors"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            Say hi
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            className="md:hidden ml-auto w-10 h-10 grid place-items-center rounded-full text-white"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            <span className="relative block w-5 h-3">
+              <span
+                className={`absolute left-0 right-0 h-[2px] bg-white rounded transition-transform duration-300 ${
+                  open ? "top-[5px] rotate-45" : "top-0"
+                }`}
+              />
+              <span
+                className={`absolute left-0 right-0 h-[2px] bg-white rounded transition-transform duration-300 ${
+                  open ? "top-[5px] -rotate-45" : "top-[10px]"
+                }`}
+              />
+            </span>
           </button>
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-primary-foreground/10 pt-4">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm tracking-wide"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+      {/* phone menu: full screen, big type */}
+      <div
+        className={`md:hidden fixed inset-0 z-40 bg-[#07080a] transition-[opacity,visibility] duration-300 ${
+          open ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        <div className="h-full flex flex-col justify-center px-7 pt-16">
+          {APPS.map((a, i) => (
+            <a
+              key={a.id}
+              href={`/#${a.id}`}
+              onClick={() => setOpen(false)}
+              className="menu-item flex items-baseline gap-3 py-2.5 border-b border-white/10"
+              style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}
+              data-open={open}
+            >
+              <span className="font-mono text-xs" style={{ color: a.color }}>
+                {a.n}
+              </span>
+              <span className="font-display font-extrabold text-white text-4xl tracking-[-0.03em]">{a.short}</span>
+              <span className="ml-auto text-xs text-white/40">{a.tag}</span>
+            </a>
+          ))}
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-white/60 text-sm">
+            <a href="/#team" onClick={() => setOpen(false)}>
+              Team
+            </a>
+            <Link href="/privacy" onClick={() => setOpen(false)}>
+              Privacy
+            </Link>
+            <Link href="/terms" onClick={() => setOpen(false)}>
+              Terms
+            </Link>
+            <a href="mailto:app@betterullc.com">app@betterullc.com</a>
           </div>
-        )}
+        </div>
       </div>
-    </nav>
+    </>
   );
 }

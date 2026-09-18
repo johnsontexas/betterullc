@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import { joinWaitlist, type WaitlistSource } from "@/lib/waitlist";
 
-type Variant = "terrarium" | "cogtrack" | "site";
+type Variant = "terrarium" | "cogtrack" | "site" | "ink";
 
 type Palette = {
   accentBg: string;
@@ -45,6 +45,19 @@ const PALETTES: Record<Variant, Palette> = {
     ok: "#c9b8ff",
     err: "#ffb4c4",
     radius: "12px",
+  },
+  ink: {
+    accentBg: "#ffffff",
+    accentFg: "#07080a",
+    accentHover: "#e9ece8",
+    fieldBg: "rgba(255,255,255,0.05)",
+    fieldBorder: "rgba(255,255,255,0.16)",
+    fieldText: "#ffffff",
+    placeholder: "rgba(255,255,255,0.42)",
+    muted: "rgba(255,255,255,0.55)",
+    ok: "#22c55e",
+    err: "#ff9b8f",
+    radius: "999px",
   },
   site: {
     accentBg: "#0a8043",
@@ -108,7 +121,7 @@ export function EmailSignup({
         role="status"
         style={{ color: p.ok, fontSize: "0.95rem", fontWeight: 500, margin: 0 }}
       >
-        You&apos;re on the list — we&apos;ll email you the moment it&apos;s ready.
+        You&apos;re on the list. We&apos;ll email you the moment it&apos;s ready.
       </p>
     );
   }
@@ -159,7 +172,7 @@ export function EmailSignup({
         {state === "invalid"
           ? "That doesn't look like an email address."
           : state === "error"
-            ? "Something went wrong — try again in a moment."
+            ? "Something went wrong. Try again in a moment."
             : "No spam. One email, when it launches."}
       </p>
     </form>
