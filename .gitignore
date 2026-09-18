@@ -1,0 +1,40 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env
+.env*.local
+
+# editor / tooling
+/.claude/
+/.vercel
+/.netlify
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# raw screenshot uploads: the site uses the optimized copies in public/apps/.
+# Some raw shots contain personal info (an email address, a private chat): never publish.
+public/Betteru LLC/
+public/screenshots/
+public/Snapshot/
+public/cogtrack/
+.DS_Store
