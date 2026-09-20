@@ -7,6 +7,7 @@ import type { AppInfo } from "@/lib/apps";
 import { span, useScrollProgress } from "@/components/use-scroll-progress";
 import { Reveal } from "@/components/reveal";
 import { Toy } from "@/components/toys";
+import { SocialLinks } from "@/components/social-links";
 
 /*
   One app's chapter. The section is tall; inside it a full-screen stage stays
@@ -156,8 +157,9 @@ export function AppWorld({
                 <p className="mt-1 text-white/60 text-[14px] leading-snug">{shot.body}</p>
               </div>
 
-              <div className="mt-4 md:mt-8 flex items-center gap-4">
+              <div className="mt-4 md:mt-8 flex items-center gap-3 md:gap-4">
                 <AppCta app={app} />
+                <SocialLinks social={app.social} name={app.name} color={app.color} />
                 <div className="hidden md:block flex-1 max-w-[140px] h-[3px] rounded-full bg-white/10 overflow-hidden">
                   <div ref={bar} className="h-full origin-left" style={{ background: app.color, transform: "scaleX(0)" }} />
                 </div>

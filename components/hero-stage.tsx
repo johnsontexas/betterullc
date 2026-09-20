@@ -10,8 +10,8 @@ import { easeInOut, span, useScrollProgress } from "@/components/use-scroll-prog
   The opening scene, scrubbed by scroll:
     1. "Get better,"  ……  "together."  — two words far apart, a field of scattered dots.
     2. The words slide into one line; the dots (people) pull together into one swarm.
-    3. The swarm splits into four shapes that say what each app is — a dumbbell,
-       a target, a head, a desktop — each labelled and clickable.
+    3. The swarm splits into one shape per app — a dumbbell, a target, a
+       viewfinder, a head, a desktop — each labelled and clickable.
   Pointer / finger pushes the dots around the whole time.
 */
 
@@ -27,19 +27,61 @@ type Dot = {
   ox: number; oy: number; vx: number; vy: number; // pointer offset + velocity
 };
 
+const N = APPS.length;
+
+/*
+  Where each app's shape lands once the swarm splits.
+
+  Phones stack them two to a row; wide screens lay them out in one line. Both
+  are derived from APPS.length rather than hard-coded, so adding an app to
+  lib/apps.ts is all it takes — the dots, the shapes and the labels follow.
+*/
+const PER_ROW = 2; // phones stack the shapes two at a time
+const ROWS = Math.ceil(N / PER_ROW);
+
 function centers(w: number, h: number) {
   if (w < 768) {
-    return [
-      [w * 0.27, h * 0.44],
-      [w * 0.73, h * 0.44],
-      [w * 0.27, h * 0.72],
-      [w * 0.73, h * 0.72],
-    ];
+    return Array.from({ length: N }, (_, i) => {
+      const row = Math.floor(i / PER_ROW);
+      const inRow = Math.min(PER_ROW, N - row * PER_ROW);
+      const col = i - row * PER_ROW;
+      // centre a short last row instead of leaving it hanging to the left
+      const x = (col + 0.5 + (PER_ROW - inRow) / 2) / PER_ROW;
+      // band stops short of the bottom rail so the last label clears it
+      return [w * (0.12 + x * 0.76), h * (0.26 + ((row + 0.5) / ROWS) * BAND)];
+    });
   }
-  return [0.17, 0.39, 0.61, 0.83].map((x) => [w * x, h * 0.6]);
+  return Array.from({ length: N }, (_, i) => [w * (0.5 + (i - (N - 1) / 2) * SLOT), h * 0.6]);
 }
 
-const shapeSize = (w: number, h: number) => Math.min(w, h) * (w < 768 ? 0.15 : 0.11);
+/** Share of the width between one shape's centre and the next, on one row. */
+const SLOT = 0.88 / N;
+/** Share of the stage height the stacked rows occupy, on phones. */
+const BAND = 0.58;
+/** Roughly how far an outline reaches from its centre, in unit space. */
+const EXTENT = 1.2;
+/** Height of the label under a shape, plus the gap above it, in px. */
+const LABEL_BLOCK = 76;
+
+/*
+  Shapes shrink as apps are added so they keep clear of each other — and of the
+  label sitting under each one.
+
+  Sizing on the viewport alone isn't enough in either layout: a shape is about
+  2 * EXTENT * R across, so five of them on one row outgrow their slots on a
+  wide screen, and stacked rows outgrow the gap between rows on a tall one.
+  Each branch therefore takes whichever of the two limits is tighter.
+*/
+const shapeSize = (w: number, h: number) => {
+  if (w < 768) {
+    const rowGap = (h * BAND) / ROWS;
+    return Math.min(
+      Math.min(w, h) * 0.15 * Math.min(1, 1.8 / ROWS),
+      (rowGap - LABEL_BLOCK) / (2 * EXTENT),
+    );
+  }
+  return Math.min(Math.min(w, h) * 0.11, w * SLOT * 0.33);
+};
 
 export function HeroStage({ downloads }: { downloads: number | null }) {
   const outer = useRef<HTMLElement>(null);
@@ -116,17 +158,18 @@ export function HeroStage({ downloads }: { downloads: number | null }) {
     const pointer = { x: -9999, y: -9999, active: false };
 
     const build = () => {
-      const n = w < 768 ? 240 : 360;
-      const per = n / 4;
+      // keep roughly the same dot count per shape however many apps there are
+      const per = Math.round((w < 768 ? 240 : 360) / 4);
+      const n = per * N;
       const pts = SHAPES.map((shape) => sampleShape(shape, per));
       dots = Array.from({ length: n }, (_, i) => ({
-        k: i % 4,
+        k: i % N,
         sx: Math.random() * 1.2 - 0.1,
         sy: Math.random() * 1.2 - 0.1,
         ca: Math.random() * Math.PI * 2,
         cr: Math.sqrt(Math.random()),
-        hx: pts[i % 4][Math.floor(i / 4)][0],
-        hy: pts[i % 4][Math.floor(i / 4)][1],
+        hx: pts[i % N][Math.floor(i / N)][0],
+        hy: pts[i % N][Math.floor(i / N)][1],
         w: (0.12 + Math.random() * 0.4) * (Math.random() < 0.5 ? -1 : 1),
         ph: Math.random() * Math.PI * 2,
         size: (w < 768 ? 1.4 : 1.8) + Math.random() * (w < 768 ? 1.2 : 1.6),
@@ -179,7 +222,7 @@ export function HeroStage({ downloads }: { downloads: number | null }) {
     });
     io.observe(st);
 
-    const spread = new Float32Array(4).fill(1);
+    const spread = new Float32Array(N).fill(1);
     let raf = 0;
     let prev = performance.now();
     const frame = (now: number) => {
@@ -197,7 +240,7 @@ export function HeroStage({ downloads }: { downloads: number | null }) {
       const cx = w / 2;
       const cy = h * (mobile ? 0.5 : 0.52);
 
-      for (let k = 0; k < 4; k++) {
+      for (let k = 0; k < N; k++) {
         const target = hovered.current === k ? 1.18 : 1;
         spread[k] += (target - spread[k]) * 0.12;
       }
@@ -205,9 +248,9 @@ export function HeroStage({ downloads }: { downloads: number | null }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
-      for (let k = 0; k < 4; k++) {
+      for (let k = 0; k < N; k++) {
         ctx.fillStyle = APPS[k].color;
-        for (let i = k; i < dots.length; i += 4) {
+        for (let i = k; i < dots.length; i += N) {
           const d = dots[i];
           // 1. scattered, drifting
           const x0 = d.sx * w + Math.sin(time * 0.3 + d.ph) * 14;
@@ -306,10 +349,10 @@ export function HeroStage({ downloads }: { downloads: number | null }) {
           >
             {downloads ? (
               <>
-                Four apps. <span className="text-white font-semibold">{downloads.toLocaleString("en-US")} downloads</span>. Pick one.
+                {N} apps. <span className="text-white font-semibold">{downloads.toLocaleString("en-US")} downloads</span>. Pick one.
               </>
             ) : (
-              "Four apps, one idea. Pick one."
+              `${N} apps, one idea. Pick one.`
             )}
           </p>
         </div>

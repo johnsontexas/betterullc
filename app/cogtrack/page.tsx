@@ -458,8 +458,11 @@ export default function CogTrackPage() {
         <span>© {new Date().getFullYear()} BetterU LLC</span>
         <span className="ctk-foot-links">
           <Link href="/">Home</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+          <Link href="/cogtrack/privacy">Privacy</Link>
+          <Link href="/cogtrack/terms">Terms</Link>
+          <a href="https://www.instagram.com/cogtracker" target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
           <a href="mailto:app@betterullc.com">app@betterullc.com</a>
         </span>
       </footer>

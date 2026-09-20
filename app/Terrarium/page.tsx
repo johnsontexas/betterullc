@@ -265,8 +265,8 @@ export default function TerrariumPage() {
         <span>© {new Date().getFullYear()} BetterU LLC</span>
         <span className="tr-foot-links">
           <Link href="/">Home</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
+          <Link href="/Terrarium/privacy">Privacy</Link>
+          <Link href="/Terrarium/terms">Terms</Link>
           <a href="mailto:app@betterullc.com">app@betterullc.com</a>
         </span>
       </footer>

@@ -1,7 +1,20 @@
-// The four BetterU LLC apps — one source of truth for the homepage hero,
-// the app chapters and the footer.
+// The five BetterU LLC apps — one source of truth for the homepage hero,
+// the app chapters and the footer. Order here is the order everywhere:
+// the hero shapes (see hero-shapes.ts, one per app, same order), the nav,
+// the chapters and the footer all read straight off this list.
 
-export type AppId = "betteru" | "snapshot" | "cogtrack" | "terrarium";
+export type AppId = "betteru" | "snapshot" | "frameguide" | "cogtrack" | "terrarium";
+
+/** Handles only — the full URLs are built by socialUrl below. */
+export type Social = { instagram?: string; tiktok?: string };
+
+export const socialUrl = {
+  instagram: (handle: string) => `https://www.instagram.com/${handle}`,
+  tiktok: (handle: string) => `https://www.tiktok.com/@${handle}`,
+};
+
+/** BetterU LLC itself, as opposed to any one app. */
+export const COMPANY_SOCIAL: Social = { instagram: "betterullc", tiktok: "betterullc" };
 
 export type Shot = {
   src: string;
@@ -29,6 +42,10 @@ export type AppInfo = {
   bg: string;
   /** "phone" = 1206×2622 portrait screens, "desktop" = 16:10 windows */
   device: "phone" | "desktop";
+  /** the app's own policies, for apps that ship their own rather than relying on the company-wide ones */
+  legal?: { privacy: string; terms: string };
+  /** the app's own accounts, where it has them — the company ones live in COMPANY_SOCIAL */
+  social?: Social;
   shots: Shot[];
   toy: { title: string; hint: string };
 };
@@ -49,6 +66,7 @@ export const APPS: AppInfo[] = [
     color2: "#f97316",
     bg: "#05090a",
     device: "phone",
+    social: { instagram: "betteruapp", tiktok: "betteruapp" },
     shots: [
       {
         src: "/apps/betteru/workouts.webp",
@@ -103,6 +121,8 @@ export const APPS: AppInfo[] = [
     color2: "#ef4444",
     bg: "#0b0d10",
     device: "phone",
+    social: { instagram: "snapshotapp", tiktok: "snapshot.app" },
+    legal: { privacy: "/snapshot/privacy", terms: "/snapshot/terms" },
     shots: [
       {
         src: "/apps/snapshot/hero.webp",
@@ -138,8 +158,57 @@ export const APPS: AppInfo[] = [
     toy: { title: "Snap the target", hint: "Tap them before they move" },
   },
   {
-    id: "cogtrack",
+    id: "frameguide",
     n: "03",
+    name: "FrameGuide",
+    short: "FrameGuide",
+    tag: "Framing coach",
+    status: "On the App Store",
+    line: "A live framing coach in the viewfinder. It draws the better frame in AR and you walk until it locks.",
+    href: "/frameguide",
+    cta: "See how it works",
+    color: "#2fbf9b",
+    color2: "#f0923a",
+    bg: "#07100f",
+    device: "phone",
+    legal: { privacy: "/frameguide/privacy", terms: "/frameguide/terms" },
+    shots: [
+      {
+        src: "/apps/frameguide/hero.webp",
+        alt: "FrameGuide AR Frame Match, with a suggested frame floating in the scene",
+        title: "It draws the frame",
+        body: "AR Frame Match puts a better composition in front of you, pinned to the real world.",
+      },
+      {
+        src: "/apps/frameguide/thirds.webp",
+        alt: "FrameGuide camera view with a rule-of-thirds grid over a mountain lake",
+        title: "You walk into it",
+        body: "Move until the shot lines up with the guide. No cropping it back into shape later.",
+      },
+      {
+        src: "/apps/frameguide/scene.webp",
+        alt: "FrameGuide scene info sheet: subject and place",
+        title: "Tell it the scene",
+        body: "One person or a group, indoors or a landscape. The coaching changes to match.",
+      },
+      {
+        src: "/apps/frameguide/album.webp",
+        alt: "FrameGuide album of shots waiting to be saved to Photos",
+        title: "Shoot first, save later",
+        body: "Shots land in FrameGuide's own album. Send the keepers to Photos when you're ready.",
+      },
+      {
+        src: "/apps/frameguide/pro.webp",
+        alt: "FrameGuide Pro: no ads, clean saves, unlimited AR",
+        title: "Clean saves with Pro",
+        body: "On-device coaching is free. Pro drops the watermark and the ads, and unlocks unlimited AR.",
+      },
+    ],
+    toy: { title: "Find the better frame", hint: "Drag the frame onto the subject" },
+  },
+  {
+    id: "cogtrack",
+    n: "04",
     name: "CogTrack",
     short: "CogTrack",
     tag: "Mind training",
@@ -151,6 +220,8 @@ export const APPS: AppInfo[] = [
     color2: "#c9b8ff",
     bg: "#1a0d3a",
     device: "phone",
+    social: { instagram: "cogtracker" },
+    legal: { privacy: "/cogtrack/privacy", terms: "/cogtrack/terms" },
     shots: [
       {
         src: "/apps/cogtrack/home.webp",
@@ -187,7 +258,7 @@ export const APPS: AppInfo[] = [
   },
   {
     id: "terrarium",
-    n: "04",
+    n: "05",
     name: "Terrarium",
     short: "Terrarium",
     tag: "Desktop app",
@@ -199,6 +270,7 @@ export const APPS: AppInfo[] = [
     color2: "#c9b8ff",
     bg: "#0b0e14",
     device: "desktop",
+    legal: { privacy: "/Terrarium/privacy", terms: "/Terrarium/terms" },
     shots: [
       {
         src: "/Terrarium/desktop.jpg",

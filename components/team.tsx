@@ -2,10 +2,19 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { Linkedin } from "lucide-react";
+import { Globe, Linkedin } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 
-const team = [
+type Member = {
+  name: string;
+  image: string;
+  linkedin: string;
+  color: string;
+  /** personal site, for the co-founders who have one */
+  website?: { href: string; label: string };
+};
+
+const team: Member[] = [
   {
     name: "Lucas Borgarello",
     image: "/lucas.jpeg",
@@ -16,6 +25,7 @@ const team = [
     name: "Daniel Johnson",
     image: "/dan3.JPG",
     linkedin: "https://www.linkedin.com/in/johnsontx",
+    website: { href: "https://johnsontexas.com", label: "johnsontexas.com" },
     color: "#f97316",
   },
   {
@@ -26,22 +36,57 @@ const team = [
   },
 ];
 
-// Card tilts toward the pointer (desktop); flat on touch.
+/*
+  Card tilts toward the pointer (desktop); flat on touch.
+
+  The tilt is transitioned, so the card keeps moving for ~350ms after the
+  pointer stops. If you click while it's still settling, the anchor slides out
+  from under the cursor between mousedown and mouseup — the browser then fires
+  `click` on the nearest common ancestor instead of the <a>, and the link
+  silently does nothing. Anything inside [data-steady] therefore pins the card:
+  the tilt freezes where it is (transition killed so it stops *now*, not over
+  the next 350ms) for as long as the pointer is over it.
+*/
 function TiltCard({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
+  const frozen = useRef(false);
+
+  const freeze = (el: HTMLDivElement) => {
+    if (frozen.current) return;
+    frozen.current = true;
+    // snap to whatever is on screen right now, mid-transition included
+    el.style.transform = getComputedStyle(el).transform;
+    el.style.transition = "none";
+  };
+
+  const thaw = (el: HTMLDivElement) => {
+    if (!frozen.current) return;
+    frozen.current = false;
+    el.style.transition = "";
+  };
+
   return (
     <div
       ref={ref}
       className="tilt"
       onPointerMove={(e) => {
-        if (e.pointerType !== "mouse" || !ref.current) return;
-        const r = ref.current.getBoundingClientRect();
+        const el = ref.current;
+        if (e.pointerType !== "mouse" || !el) return;
+        if ((e.target as Element).closest("[data-steady]")) {
+          freeze(el);
+          return;
+        }
+        thaw(el);
+        const r = el.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width - 0.5;
         const y = (e.clientY - r.top) / r.height - 0.5;
-        ref.current.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-4px)`;
+        el.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-4px)`;
       }}
       onPointerLeave={() => {
-        if (ref.current) ref.current.style.transform = "";
+        const el = ref.current;
+        if (!el) return;
+        thaw(el);
+        el.style.transform = "";
       }}
     >
       {children}
@@ -83,15 +128,31 @@ export function Team() {
                       <h3 className="font-display font-bold text-white text-xl">{m.name}</h3>
                       <p className="text-white/55 text-xs font-semibold tracking-[0.16em] uppercase mt-1">Co-founder</p>
                     </div>
-                    <a
-                      href={m.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${m.name} on LinkedIn`}
-                      className="w-10 h-10 shrink-0 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white hover:text-black transition-colors"
-                    >
-                      <Linkedin size={16} />
-                    </a>
+                    <div className="flex items-center gap-2 shrink-0">
+                      {m.website && (
+                        <a
+                          href={m.website.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${m.name}'s website, ${m.website.label}`}
+                          title={m.website.label}
+                          data-steady
+                          className="w-10 h-10 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white hover:text-black transition-colors"
+                        >
+                          <Globe size={16} />
+                        </a>
+                      )}
+                      <a
+                        href={m.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${m.name} on LinkedIn`}
+                        data-steady
+                        className="w-10 h-10 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white hover:text-black transition-colors"
+                      >
+                        <Linkedin size={16} />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </TiltCard>

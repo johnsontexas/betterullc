@@ -20,8 +20,18 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "BetterU LLC - Get better, together",
   description:
-    "BetterU LLC builds social apps around one idea: people improve faster with their friends in it with them. BetterU Social Fitness, Snapshot, CogTrack and Terrarium.",
-  keywords: ["BetterU", "social fitness", "snapshot", "cogtrack", "cognitive training", "mobile apps", "startup"],
+    "BetterU LLC builds social apps around one idea: people improve faster with their friends in it with them. BetterU Social Fitness, Snapshot, FrameGuide, CogTrack and Terrarium.",
+  keywords: [
+    "BetterU",
+    "social fitness",
+    "snapshot",
+    "frameguide",
+    "photo composition",
+    "cogtrack",
+    "cognitive training",
+    "mobile apps",
+    "startup",
+  ],
   authors: [{ name: "BetterU LLC" }],
   openGraph: {
     title: "BetterU LLC - Get better, together",

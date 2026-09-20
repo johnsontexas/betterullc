@@ -451,6 +451,12 @@ export default function SnapshotPage() {
           <Link href="/">Home</Link>
           <Link href="/snapshot/privacy">Privacy</Link>
           <Link href="/snapshot/terms">Terms</Link>
+          <a href="https://www.instagram.com/snapshotapp" target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
+          <a href="https://www.tiktok.com/@snapshot.app" target="_blank" rel="noopener noreferrer">
+            TikTok
+          </a>
           <a href="mailto:app@betterullc.com">app@betterullc.com</a>
         </span>
       </footer>

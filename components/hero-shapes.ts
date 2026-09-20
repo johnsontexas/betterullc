@@ -1,4 +1,5 @@
-// Outline shapes the hero dots settle into, one per app, in unit space
+// Outline shapes the hero dots settle into, one per app (same order as
+// APPS in lib/apps.ts), in unit space
 // (roughly -1..1 on both axes, y down). Each shape is a list of polylines;
 // dots are spread evenly along their total length so the outline reads
 // clearly even with only ~40 dots on a phone.
@@ -59,7 +60,32 @@ const TARGET: Line[] = [
   ],
 ];
 
-// 03 CogTrack — a head in profile with a trend line where the brain is
+// 03 FrameGuide — viewfinder corner brackets around a horizon line
+const FRAME: Line[] = [
+  // four corner brackets
+  ...([
+    [-1.0, -0.78, 1, 1],
+    [1.0, -0.78, -1, 1],
+    [-1.0, 0.78, 1, -1],
+    [1.0, 0.78, -1, -1],
+  ] as const).map(
+    ([x, y, sx, sy]): Line => [
+      [x + 0.46 * sx, y],
+      [x, y],
+      [x, y + 0.44 * sy],
+    ],
+  ),
+  // horizon on the lower third, with a peak sitting on it
+  [
+    [-0.66, 0.24],
+    [-0.2, 0.24],
+    [0.04, -0.2],
+    [0.3, 0.24],
+    [0.66, 0.24],
+  ],
+];
+
+// 04 CogTrack — a head in profile with a trend line where the brain is
 const HEAD: Line[] = [
   [
     [-0.3, 1.05],
@@ -92,7 +118,7 @@ const HEAD: Line[] = [
   ],
 ];
 
-// 04 Terrarium — a desktop monitor with windows floating on it
+// 05 Terrarium — a desktop monitor with windows floating on it
 const DESKTOP: Line[] = [
   rect(-1.05, -0.78, 1.05, 0.5),
   [
@@ -107,7 +133,8 @@ const DESKTOP: Line[] = [
   rect(0.0, -0.4, 0.8, 0.28),
 ];
 
-export const SHAPES: Line[][] = [DUMBBELL, TARGET, HEAD, DESKTOP];
+// One per app, in the same order as APPS in lib/apps.ts.
+export const SHAPES: Line[][] = [DUMBBELL, TARGET, FRAME, HEAD, DESKTOP];
 
 /** `count` points spaced evenly along the shape's outline. */
 export function sampleShape(shape: Line[], count: number): Pt[] {

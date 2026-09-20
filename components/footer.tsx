@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Instagram } from "lucide-react";
-import { APPS } from "@/lib/apps";
+import { APPS, COMPANY_SOCIAL, socialUrl } from "@/lib/apps";
+import { SocialLinks } from "@/components/social-links";
 
 export function Footer() {
   return (
@@ -17,15 +17,17 @@ export function Footer() {
             <p className="mt-5 text-white/50 text-sm leading-relaxed max-w-sm">
               Social apps built around one idea: people get better, together.
             </p>
-            <a
-              href="https://www.instagram.com/betterullc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm"
-            >
-              <Instagram size={16} />
-              @betterullc
-            </a>
+            <div className="mt-5 flex items-center gap-3">
+              <SocialLinks social={COMPANY_SOCIAL} name="BetterU LLC" />
+              <a
+                href={socialUrl.instagram(COMPANY_SOCIAL.instagram!)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white transition-colors text-sm"
+              >
+                @{COMPANY_SOCIAL.instagram}
+              </a>
+            </div>
           </div>
 
           <div>
@@ -71,16 +73,27 @@ export function Footer() {
                   Terms of Service
                 </Link>
               </li>
-              <li>
-                <Link href="/snapshot/privacy" className="text-white/70 hover:text-white transition-colors">
-                  Snapshot Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="/snapshot/terms" className="text-white/70 hover:text-white transition-colors">
-                  Snapshot Terms
-                </Link>
-              </li>
+            </ul>
+
+            {/* apps that ship their own policies list them under their own name,
+                so the column doesn't become ten near-identical links */}
+            <h4 className="text-white/40 text-xs font-semibold tracking-[0.16em] uppercase mt-6 mb-3">
+              Per app
+            </h4>
+            <ul className="space-y-2 text-sm">
+              {APPS.filter((a) => a.legal).map((a) => (
+                <li key={a.id} className="flex items-baseline gap-2">
+                  <span className="text-white/70">{a.short}</span>
+                  <span className="text-white/25">·</span>
+                  <Link href={a.legal!.privacy} className="text-white/50 hover:text-white transition-colors">
+                    Privacy
+                  </Link>
+                  <span className="text-white/25">·</span>
+                  <Link href={a.legal!.terms} className="text-white/50 hover:text-white transition-colors">
+                    Terms
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

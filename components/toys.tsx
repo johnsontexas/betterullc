@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AppId } from "@/lib/apps";
 
-/* Four small, honest demos — one per app. Pointer events throughout so they
+/* Five small, honest demos — one per app. Pointer events throughout so they
    work the same with a mouse, a trackpad or a thumb. */
 
 export function Toy({
@@ -19,6 +19,7 @@ export function Toy({
 }) {
   if (id === "betteru") return <RepRace color={color} color2={color2} hint={hint} />;
   if (id === "snapshot") return <SnapTarget color={color} color2={color2} hint={hint} />;
+  if (id === "frameguide") return <FrameIt color={color} color2={color2} hint={hint} />;
   if (id === "cogtrack") return <Reaction color={color} color2={color2} hint={hint} />;
   return <Pinboard color={color} hint={hint} />;
 }
@@ -302,6 +303,201 @@ function SnapTarget({ color, color2, hint }: P) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- FrameGuide */
+
+const FW = 54; // frame width, % of stage
+const FH = 64; // frame height, % of stage
+const THIRD_X = FW / 6; // offset from frame centre to a vertical third
+const THIRD_Y = FH / 6;
+
+/*
+  Where the shot actually is, as a % of the stage. Re-rolled each round.
+
+  The subject and the horizon both want to sit on a third, and the frame's two
+  horizontal thirds are a fixed 2 * THIRD_Y apart — so a scene where the two
+  are any other distance apart simply cannot be framed well. The horizon is
+  therefore derived from the subject rather than rolled independently, which
+  keeps every round winnable.
+*/
+type Scene = { sx: number; sy: number; hy: number };
+
+const scene = (): Scene => {
+  const sy = 24 + Math.random() * 26;
+  return {
+    sx: 20 + Math.random() * 60,
+    sy,
+    // subject on the upper third puts the horizon on the lower one
+    hy: sy + 2 * THIRD_Y + (Math.random() * 4 - 2),
+  };
+};
+
+function FrameIt({ color, color2, hint }: P) {
+  const stage = useRef<HTMLDivElement>(null);
+  const [sc, setSc] = useState<Scene>({ sx: 64, sy: 42, hy: 58 });
+  const [pos, setPos] = useState({ x: 50, y: 50 });
+  const [dragging, setDragging] = useState(false);
+  const [shots, setShots] = useState<number[]>([]);
+  const [flash, setFlash] = useState(0);
+  const grab = useRef<{ dx: number; dy: number } | null>(null);
+
+  // the scene is random, so only roll it once the client is up
+  useEffect(() => setSc(scene()), []);
+
+  // how near the subject sits to one of the frame's four power points…
+  const best = Math.min(
+    ...[-1, 1].flatMap((mx) =>
+      [-1, 1].map((my) =>
+        Math.hypot(sc.sx - (pos.x + mx * THIRD_X), sc.sy - (pos.y + my * THIRD_Y)),
+      ),
+    ),
+  );
+  // …and how near the horizon sits to one of its two horizontal thirds
+  const horizonOff = Math.min(
+    Math.abs(sc.hy - (pos.y + THIRD_Y)),
+    Math.abs(sc.hy - (pos.y - THIRD_Y)),
+  );
+  // subject on a power point matters a bit more than a level horizon
+  const score = Math.max(0, Math.round(100 - best * 5.5 - horizonOff * 2));
+  const locked = score >= 88;
+
+  const move = (e: React.PointerEvent) => {
+    const g = grab.current;
+    const r = stage.current?.getBoundingClientRect();
+    if (!g || !r) return;
+    const x = ((e.clientX - r.left) / r.width) * 100 - g.dx;
+    const y = ((e.clientY - r.top) / r.height) * 100 - g.dy;
+    setPos({
+      x: Math.max(FW / 2, Math.min(100 - FW / 2, x)),
+      y: Math.max(FH / 2, Math.min(100 - FH / 2, y)),
+    });
+  };
+
+  const shoot = () => {
+    setFlash((f) => f + 1);
+    setShots((s) => [...s.slice(-4), score]);
+    setSc(scene());
+  };
+
+  const bestEver = shots.length ? Math.max(...shots) : null;
+
+  return (
+    <div className={`${frame} p-0 select-none`}>
+      <div
+        ref={stage}
+        className="relative aspect-[4/5] sm:aspect-[16/11] overflow-hidden bg-[#07100f] touch-none"
+        onPointerMove={move}
+        onPointerUp={() => {
+          grab.current = null;
+          setDragging(false);
+        }}
+        onPointerCancel={() => {
+          grab.current = null;
+          setDragging(false);
+        }}
+      >
+        {/* the scene: sky, ground, a horizon and one subject */}
+        <span className="absolute inset-0" style={{ background: "linear-gradient(#16303a, #24424a 55%, #101d1c)" }} aria-hidden />
+        <span
+          className="absolute inset-x-0"
+          style={{ top: `${sc.hy}%`, bottom: 0, background: "linear-gradient(#0f2422, #07100f)" }}
+          aria-hidden
+        />
+        <span
+          className="absolute inset-x-0 h-px"
+          style={{ top: `${sc.hy}%`, background: "rgba(255,255,255,0.28)" }}
+          aria-hidden
+        />
+        {/* subject */}
+        <span
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${sc.sx}%`, top: `${sc.sy}%` }}
+          aria-hidden
+        >
+          <svg viewBox="0 0 40 60" className="w-[26px] sm:w-[34px] h-auto">
+            <circle cx="20" cy="11" r="8" fill={color2} />
+            <path d="M8 27c0-4 4-7 8-7h8c4 0 8 3 8 7v15h-5v18h-4V42h-6v18h-4V42H8z" fill={color2} />
+          </svg>
+        </span>
+
+        {/* the frame you drag */}
+        <div
+          onPointerDown={(e) => {
+            const r = stage.current!.getBoundingClientRect();
+            grab.current = {
+              dx: ((e.clientX - r.left) / r.width) * 100 - pos.x,
+              dy: ((e.clientY - r.top) / r.height) * 100 - pos.y,
+            };
+            setDragging(true);
+            (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+          }}
+          className="absolute -translate-x-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing"
+          style={{
+            left: `${pos.x}%`,
+            top: `${pos.y}%`,
+            width: `${FW}%`,
+            height: `${FH}%`,
+            outline: `2px solid ${locked ? color : "rgba(255,255,255,0.75)"}`,
+            boxShadow: locked ? `0 0 0 9999px rgba(3,10,9,0.5), 0 0 34px ${color}` : "0 0 0 9999px rgba(3,10,9,0.5)",
+            transition: dragging ? "none" : "box-shadow 0.25s, outline-color 0.25s",
+          }}
+        >
+          {/* thirds inside the frame */}
+          {[33.333, 66.667].map((v) => (
+            <span key={`v${v}`} className="absolute inset-y-0 w-px" style={{ left: `${v}%`, background: locked ? color : "rgba(255,255,255,0.3)" }} />
+          ))}
+          {[33.333, 66.667].map((v) => (
+            <span key={`h${v}`} className="absolute inset-x-0 h-px" style={{ top: `${v}%`, background: locked ? color : "rgba(255,255,255,0.3)" }} />
+          ))}
+          {[33.333, 66.667].flatMap((x) =>
+            [33.333, 66.667].map((y) => (
+              <span
+                key={`p${x}-${y}`}
+                className="absolute w-1.5 h-1.5 -ml-[3px] -mt-[3px] rounded-full"
+                style={{ left: `${x}%`, top: `${y}%`, background: locked ? color : "rgba(255,255,255,0.55)" }}
+              />
+            )),
+          )}
+        </div>
+
+        {flash > 0 && <span key={flash} className="snap-flash absolute inset-0 bg-white pointer-events-none" />}
+
+        <p className="absolute top-3 left-4 font-mono text-[11px] text-white/50 pointer-events-none">
+          {dragging || shots.length ? "DRAG THE FRAME" : hint.toUpperCase()}
+        </p>
+        <p
+          className="absolute top-3 right-4 font-mono text-[11px] tabular-nums pointer-events-none"
+          style={{ color: locked ? color : "rgba(255,255,255,0.5)" }}
+        >
+          {locked ? "LOCKED" : `${score}%`}
+        </p>
+      </div>
+
+      <div className="flex items-center gap-4 px-5 py-3 border-t border-white/10">
+        <button
+          type="button"
+          onClick={shoot}
+          className="rounded-full px-4 py-2 text-sm font-semibold text-black transition-transform active:scale-[0.97]"
+          style={{ background: locked ? color : "rgba(255,255,255,0.85)" }}
+        >
+          {locked ? "Take the shot" : "Shoot anyway"}
+        </button>
+        <span className="font-mono text-[12px] text-white/50">
+          BEST <b className="text-white tabular-nums">{bestEver !== null ? `${bestEver}%` : "-"}</b>
+        </span>
+        <span className="ml-auto flex gap-1.5" aria-hidden>
+          {Array.from({ length: 5 }, (_, i) => (
+            <span
+              key={i}
+              className="w-1.5 h-4 rounded-full"
+              style={{ background: i < shots.length ? color : "rgba(255,255,255,0.12)" }}
+            />
+          ))}
+        </span>
+      </div>
     </div>
   );
 }
